@@ -5,7 +5,7 @@ cssclasses:
 type: idea
 emoji: 🔥
 title: hello world!
-topics: zenn, メモ
+topics: go, 初心者
 date: 2024-11-12
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/hello-world
