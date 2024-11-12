@@ -5,14 +5,13 @@ cssclasses:
 type: idea
 emoji: 🔥
 title: hello world!
-topics: 自己紹介
+topics: zenn, メモ
 date: 2024-11-12
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/hello-world
 tags:
   - "#type/zenn"
-aliases:
-  - 記事『undefined』
+aliases: 
 date created: 2024-11-12
 date modified: 2024-11-12
 ---
