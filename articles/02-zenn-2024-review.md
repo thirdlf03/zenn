@@ -73,6 +73,10 @@ AWSをしっかり使い始めた。EC2やLambda、VPC、RDSなど使ったプ�
 - FastAPI
 - React Native (Expo)
 
+## ハッカソン
+おすすめのハッカソンです。開発に没頭できる環境を用意してもらえるのがかなり嬉しい。
+https://cup.hackz.team/
+
 ## 総評
 こう見ると今年はかなり様々な技術に触ったなぁ〜って印象
 来年はRustだったりWasm、Flutterなんかも触りたいなぁっておもってます。
