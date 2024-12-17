@@ -1,24 +1,25 @@
 ---
-published: false
-cssclass: zenn
-type: "idea"
-emoji: "🔥"
-
-title: "今年の振り返り"
-topics: []
+published: true
+cssclasses:
+  - zenn
+type: idea
+emoji: 🔥
+title: 今年の振り返り
+topics: 
 date: 2024-12-17
 AutoNoteMover: disable
-url: "https://zenn.dev/thirdlf/articles/無題のファイル"
-tags: [" #type/zenn "]
-aliases: 
+url: https://zenn.dev/thirdlf/articles/無題のファイル
+tags:
+  - メモ
+  - "#振り返り"
+aliases:
 ---
 # 2024年振り返り
 もうすぐ2024年も終わるので今年触った技術や作ったものの振り返りをしていこうと思います。
 
 ## やったこと
 今年は、初めてWebアプリを開発したり、ネイティブアプリを開発するなど様々な新しい技術に触った年でした。
-また、今年は積極的ハッカソンに参加した年でした。
-合計で、5回出場して2回優勝することができました！
+また、今年は積極的ハッカソンに参加した年で、5回出場して2回優勝することができました！
 一緒に出てくれたチームメンバーに感謝！！
 
 ## 技術
@@ -68,9 +69,13 @@ p2p通信をするときに、firestoreを使った。便利
 ### AWS 
 AWSをしっかり使い始めた。EC2やLambda、VPC、RDSなど使ったプロダクトを作ることができた。まだ、知らないことばっかりなので勉強していきたい。
 
+## おすすめ
+- FastAPI
+- React Native (Expo)
+
 ## 総評
 こう見ると今年はかなり様々な技術に触ったなぁ〜って印象
-来年はRustを使ってWasmを使ったり、Flutterなんかも触りたいなぁっておもってます。
+来年はRustだったりWasm、Flutterなんかも触りたいなぁっておもってます。
 
 
 
