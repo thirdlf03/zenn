@@ -131,7 +131,6 @@ export default component$(() => {
 ```
 
 ![[03-vote.png]]
-
 ## 状態管理
 reactでいう、useStateかな
 useSignalを使う
@@ -319,6 +318,7 @@ npm run preview
 
 ![[03-preview.png]]
 
+若干パフォーマンス良くなってる
 ## まとめ
 
 ### コンポーネント作成
