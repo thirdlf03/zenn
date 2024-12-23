@@ -60,7 +60,7 @@ export default component$(() => {
 routeLoaderを使うといいらしい
 
 ```tsx
-import { component$ } from '@builder.io/qwik'  
+import { component$ } from '@builder.io/qwik'
 import { routeLoader$ } from '@builder.io/qwik-city';  
   
 export const getZennArticle = routeLoader$(async () => {  
@@ -116,7 +116,8 @@ export default component$(() => {
     return (  
         <div>  
             <h1>Hello, World!</h1>  
-            <div>                {zennArticles.value.articles.map((article: any) => (  
+            <div>
+                {zennArticles.value.articles.map((article: any) => (  
                     <div key={article.id} align="center">  
                         <p>記事名: {article.title}</p>  
                         <p>いいね数: {article.liked_count}</p>  
@@ -124,9 +125,12 @@ export default component$(() => {
                             <input type="hidden" name="voteID" value={article.id} />  
                             <button name="vote" value="up">👍</button>  
                             <button name="vote" value="down">👎</button>  
-                        </Form>                    </div>                ))}  
+                        </Form>
+                    </div>
+                ))}  
             </div>  
-        </div>    )  
+        </div>
+)  
 })
 ```
 
@@ -155,7 +159,8 @@ export default component$(() => {
     return (  
         <div>  
             <h1>Hello, World!</h1>  
-            <div>                {zennArticles.value.articles.map((article: any) => (  
+            <div>
+                {zennArticles.value.articles.map((article: any) => (  
                     <div key={article.id} align="center">  
                         <p>記事名: {article.title}</p>  
                         <button onClick$={() => {  
@@ -167,9 +172,12 @@ export default component$(() => {
                             <input type="hidden" name="voteID" value={article.id} />  
                             <button name="vote" value="up">👍</button>  
                             <button name="vote" value="down">👎</button>  
-                        </Form>                    </div>                ))}  
+                        </Form>
+                    </div>
+                ))}  
             </div>  
-        </div>    )  
+        </div>
+    )  
 })
 
 ```
@@ -209,7 +217,8 @@ export default component$(() => {
     return (  
         <div>  
             <h1>Hello, World!</h1>  
-            <div>                {zennArticles.value.articles.map((article: any) => (  
+            <div>
+                {zennArticles.value.articles.map((article: any) => (  
                     <div key={article.id} align="center">  
                         <p>記事名: {article.title}</p>  
                         <button onClick$={() => {  
@@ -221,9 +230,12 @@ export default component$(() => {
                             <input type="hidden" name="voteID" value={article.id} />  
                             <button name="vote" value="up">👍</button>  
                             <button name="vote" value="down">👎</button>  
-                        </Form>                    </div>                ))}  
+                        </Form>
+                    </div>
+                ))}  
             </div>  
-        </div>    )  
+        </div>
+    )  
 })
 ```
 ![[03-state.png]]
@@ -275,7 +287,8 @@ export default component$(() => {
     return (  
         <div>  
             <h1>Hello, World!</h1>  
-            <div>                {zennArticles.value.articles.map((article: any) => (  
+            <div>
+                {zennArticles.value.articles.map((article: any) => (  
                     <div key={article.id} align="center">  
                         <p>記事名: {article.title}</p>  
                         <button onClick$={() => {  
@@ -287,9 +300,12 @@ export default component$(() => {
                             <input type="hidden" name="voteID" value={article.id} />  
                             <button name="vote" value="up">👍</button>  
                             <button name="vote" value="down">👎</button>  
-                        </Form>                    </div>                ))}  
+                        </Form>
+                    </div>
+                ))}  
             </div>  
-        </div>    )  
+        </div>
+    )  
 })
 ```
 
@@ -316,7 +332,7 @@ production
 npm run preview
 ```
 
-![[03-preview.png]]
+![[03-preview.png]]]
 
 若干パフォーマンス良くなってる
 ## まとめ
