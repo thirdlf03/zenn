@@ -1,22 +1,25 @@
 ---
-published: false
-cssclass: zenn
-type: "tech"
-emoji: "🚀"
-
-title: "QwikをQuick入門"
-topics: []
+published: true
+cssclasses:
+  - zenn
+type: tech
+emoji: 🚀
+title: QwikをQuick入門
+topics: 
 date: 2024-12-23
 AutoNoteMover: disable
-url: "https://zenn.dev/thirdlf/articles/03"
-tags: [" #type/zenn "]
-aliases: 
+url: https://zenn.dev/thirdlf/articles/03
+tags:
+  - "#type/zenn"
+aliases:
 ---
 # 概要
 QwikをQuick入門したい。
 公式チュートリアルをやっていく
 https://qwik.dev/docs/getting-started/
 
+リポ
+https://github.com/thirdlf03/qwik-quick
 
 ## セットアップ
 今回は、Playground Appで作成
@@ -47,7 +50,7 @@ export default component$(() => {
 これで、http://localhost:5173/hello/
 にアクセスするとHello Worldできる。
 
-![[03-hello.png]]
+![](/images/article-3/03-hello.png)
 
 
 ## WebAPIからデータ取得
@@ -87,7 +90,7 @@ export default component$(() => {
 
 ```
 
-![[03-zenn-api.png]]
+![](/images/article-3/03-zenn-api.png)
 
 ふむ
 
@@ -134,7 +137,7 @@ export default component$(() => {
 })
 ```
 
-![[03-vote.png]]
+![](/images/article-3/03-vote.png)
 ## 状態管理
 reactでいう、useStateかな
 useSignalを使う
@@ -238,7 +241,7 @@ export default component$(() => {
     )  
 })
 ```
-![[03-state.png]]
+![](/images/article-3/03-state.png)
 
 ## Styling
 helloディレクトリにcssファイルを追加する
@@ -309,7 +312,7 @@ export default component$(() => {
 })
 ```
 
-![[03-style.png]]
+![](/images/article-3/03-style.png)
 
 
 ## preview
@@ -325,43 +328,43 @@ dev
 npm start
 ```
 
-![[03-npm-start.png]]
+![](/images/article-3/03-npm-start.png)
 
 production
 ```bash
 npm run preview
 ```
 
-![[03-preview.png]]]
+![](/images/article-3/03-preview.png)
 
 若干パフォーマンス良くなってる
-## まとめ
+# まとめ
 
-### コンポーネント作成
+## コンポーネント作成
 
 **`component$`** を使って、Qwikコンポーネントを定義する。
 
-###  データ取得
+##  データ取得
 
 **`routeLoader$`** を使って、データを取得する。 サーバーサイドで実行され、必要なデータを取得してからページを表示。
 
-### アクション
+## アクション
 
 **`routeAction$`** を使って、ユーザーのインタラクションなどのイベントをトリガー。フォームの送信やボタンのクリックなど、状態変更を伴う操作で使用する。
 
-### 状態管理
+## 状態管理
 
 **`useSignal`** を使って、状態管理。
 
-### タスク実行と追跡
+## タスク実行と追跡
 
 **`useTask$`** を使って、副作用や状態の追跡を実装。状態の変化やデータの同期処理に利用する。
 
-### CSSの反映
+## CSSの反映
 
 **`useStylesScoped$`** を使って、コンポーネント単位でスコープ化されたCSSを適用。
 
-## 完走した感想
+# 完走した感想
 書いてる感じはほぼreact
 
 
