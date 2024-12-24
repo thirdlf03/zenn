@@ -11,6 +11,7 @@ AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/03
 tags:
   - "#type/zenn"
+  - Qwik
 aliases:
 ---
 # 概要

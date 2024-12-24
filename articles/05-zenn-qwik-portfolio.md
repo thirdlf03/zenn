@@ -23,6 +23,11 @@ aliases:
 githubのリポ
 https://github.com/thirdlf03/portfolio
 
-Cloudflare Pagesでホスティング
 
+## デプロイ
+今回は、Cloudflare Pagesでホスティング
+```bash
+npm run qwik add
+```
+で Adapter: Cloudflare Pagesを導入
 
