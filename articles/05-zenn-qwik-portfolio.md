@@ -15,7 +15,6 @@ tags:
 aliases:
 ---
 # 概要
----
 今までやってきたことを書くポートフォリオサイト作りたいなーって思っていました。
 ただ、普通に作っても面白くないしとにかく早くて快適なサイトを作りたいなー
 って時にQwikの存在を知り、これはやるしかないって事で作りました。
@@ -30,7 +29,6 @@ githubのリポ
 https://github.com/thirdlf03/portfolio
 
 # 設計
----
 ## 構成
 ポートフォリオサイト作るってなった時に、
 - GitHubのリポジトリ
@@ -60,7 +58,6 @@ https://zenn.dev/api/articles?username=thirdlf&order=latest
 最近は、v0やclaudeなんかにある程度デザインを考えさせて、それを自分で改変してます。
 
 # 技術スタック
----
 ## フロントエンド
 もちろん、Qwik⭐️⭐️
 あとは、タイピングアニメーション用にtyped.js
@@ -80,7 +77,6 @@ npm run qwik add
 あとはCloudflare側で設定するだけ。超簡単！
 
 # パフォーマンス
----
 何を持ってつよつよとするのかって話なんですが、lighthouseの結果を持ってつよつよかどうか
 判断します。
 
@@ -91,7 +87,6 @@ wkwk
 なかなかいいのでは！？
 
 # 工夫したところ
----
 ## Qwikらしい書き方をした
 lazy loadingを意識して、書いていくことによってパフォーマンスが上がっている。はず..
 
@@ -102,13 +97,13 @@ export const Zenn = component$(() => {
     const zennArticles = useZennAPI()  
     return (  
         <>  
-        <h1 class="section-text">Zenn Articles</h1>  
-            <div class="container" style={{marginBottom: "2rem"}}>  
-            {zennArticles.value.articles.map((article: any) => (  
-					<div key={article.id} class="container-content">  
-						<h1 class="zenn-title"><a href={`https://zenn.dev/${article.path}`} target="_">{article.title}</a></h1>  
-					</div>                
-				))}  
+            <h1 class="section-text">Zenn Articles</h1>  
+                <div class="container" style={{marginBottom: "2rem"}}>  
+                {zennArticles.value.articles.map((article: any) => (  
+                    <div key={article.id} class="container-content">  
+                        <h1 class="zenn-title"><a href={`https://zenn.dev/${article.path}`} target="_">{article.title}</a></h1>  
+                    </div>                
+                ))}  
             </div>  
         </>    
     )  
@@ -134,7 +129,6 @@ export default component$(() => {
 
 
 # 辛かったところ
----
 ## SSRに慣れていなかった
 NextやNuxtを触ってきてない関係上、SSRってものに慣れていなくてdocumentを扱えず、
 document is not define　エラーに悩まされていました。
@@ -199,5 +193,4 @@ useTask$(({ track }) => {
 みたいな感じです。
 
 # 感想
----
 Qwikのおかげで、フロントエンドに精通していなくても自分でも高いパフォーマンスが出せるものを作れました。しばらくフロントエンドはQwik一筋でやっていき、極めていきたいです。
