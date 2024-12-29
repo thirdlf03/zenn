@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 cssclasses:
   - zenn
 type: tech
@@ -52,6 +52,9 @@ https://ungh.cc/users/thirdlf03/repos
 
 example )
 https://zenn.dev/api/articles?username=thirdlf&order=latest
+
+### 作品紹介
+まだ未実装ですが、QwikではMDXが使えるので作品紹介記事がMDXで書く予定です。
 
 ## デザイン
 デザインを考えるのが苦手なので、いつも苦労してます ( ；∀；)
@@ -168,7 +171,7 @@ useVisibleTask$(() => {
 ```
 
 ##  ReactっぽくてReactじゃないところ
-文法的にはReactっぽいんですが、所々Reactとは違う箇所があり書いていて悩みました。
+文法的にはReactっぽいんですが、所々Reactとは違う箇所があり書いていて詰まることがありました。
 
 例えば、ReactでいうuseEffectみたいなものがuseTask$なんですが、useTaskはデフォルトでは
 初回レンダリング時のみ動作し、値を追跡する場合は
@@ -198,4 +201,5 @@ useTask$(({ track }) => {
 みたいな感じです。
 
 # 感想
-Qwikのおかげで、フロントエンドに精通していなくても自分でも高いパフォーマンスが出せるものを作れました。Qwikを極めたい。
+Qwikのおかげで、フロントエンドに精通していなくても自分でも高いパフォーマンスが出せるものを作れました。また、デザイン的にも自分好みのものを作れて満足です。
+Qwikを極めたい。
