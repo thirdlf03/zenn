@@ -1,16 +1,18 @@
 ---
-published: false
+published: true
 cssclasses:
   - zenn
 type: tech
-emoji: 🔥
+emoji: 🎱
 title: Three.js + cannon-es + Tauriで3段クルーンをシミュレーションできるやつを作った話
 topics: 
 date: 2025-01-06
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/06-zenn-threejs-cannon
 tags:
-  - "#type/zenn"
+  - threejs
+  - webgl
+  - tauri
 aliases:
 ---
 # 概要
@@ -43,7 +45,7 @@ https://github.com/thirdlf03/zawa/releases
 
 ### 環境構築
 今回は、bunで環境構築しました。
-UI templeteはVanilla
+UI templeteはJS/TSのVanilla
 ```bash
 bun create tauri-app
 ```
