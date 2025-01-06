@@ -11,6 +11,8 @@ AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/07-zenn-hono-cloudflared1
 tags:
   - hono
+  - cloudflare
+  - 初心者
 aliases:
 ---
 # 概要
@@ -45,7 +47,7 @@ bunx wrangler d1 create tutorial
 [[d1_databases]]
 binding = "DB"
 database_name = "tutorial"
-database_id = "id"
+database_id = id
 ```
 
 
@@ -71,7 +73,7 @@ compatibility_date = "2025-01-06"
 [[d1_databases]]
 binding = "DB"
 database_name = "tutorial"
-database_id = "id"
+database_id = id
   
 # [ai]  
 # binding = "AI"  
