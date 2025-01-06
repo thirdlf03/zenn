@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 cssclasses:
   - zenn
 type: tech
@@ -17,6 +17,9 @@ aliases:
 ---
 # 概要
 コストの問題で元々、AWSのRDS + Lambdaで構築していたREST APIをCloudflareのD1 + workersに移植しようと思ったので触ってみました。
+
+リポ
+https://github.com/thirdlf03/hono-d1-workers
 
 # 技術
 Cloudflare Workers使うならHonoが良さそうだったのでHonoを選択
