@@ -2,5 +2,7 @@
 - [02-zenn-2024-review](02-zenn-2024-review.md)
 - [03-zenn-qwik-quick](03-zenn-qwik-quick.md)
 - [04-zenn-qwik-detail](04-zenn-qwik-detail.md)
-- [05-zenn-qwik-portfolio](05-zenn-qwik-portfolio.md)]
--
+- [05-zenn-qwik-portfolio](05-zenn-qwik-portfolio.md)
+- [06-zenn-threejs-cannon](06-zenn-threejs-cannon.md)
+- [07-zenn-hono-cloudflared1](07-zenn-hono-cloudflared1.md)
+- [08-zenn-discord-forum-notify](08-zenn-discord-forum-notify.md)
