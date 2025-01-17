@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 cssclasses:
   - zenn
 type: idea
