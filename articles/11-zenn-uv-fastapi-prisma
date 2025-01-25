@@ -1,0 +1,13 @@
+# きっかけ
+uvってのがあるってのは知っていて、どんなものか使ってみて感動したのでこれを使ってFastAPIやIceCreamなどモダンな環境で開発してみようと思い、やってみました。
+
+# 使用するライブラリ  
+	- FastAPI  
+	- IceCream  
+	- Pyright  
+	- Prisma Client Python  
+
+# uvとは
+uvは、Rust製のパッケージマネージャーでとにかく爆速でいい感じです。
+
+使用するのも簡単で、curlやHomebrewでセットアップできる。
