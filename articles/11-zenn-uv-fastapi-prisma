@@ -11,3 +11,15 @@ uvってのがあるってのは知っていて、どんなものか使ってみ
 uvは、Rust製のパッケージマネージャーでとにかく爆速でいい感じです。
 
 使用するのも簡単で、curlやHomebrewでセットアップできる。
+
+curlの場合
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+wgetの場合
+wget -qO- https://astral.sh/uv/install.sh | sh
+
+Homebrewの場合
+brew install uv
+
+なお、Dockerのイメージもある。
+
