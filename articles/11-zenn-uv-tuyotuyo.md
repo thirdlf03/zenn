@@ -10,7 +10,7 @@ date: 2025-01-27
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/11-zenn-uv-fastapi-prisma
 tags:
-  - "#type/zenn"
+  - python
 aliases:
 ---
 
