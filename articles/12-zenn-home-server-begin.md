@@ -19,13 +19,12 @@ aliases:
 
 # サーバー周りの環境
 配線は汚いです ; w ;
-
-![](outi.webp)
+![](/images/article-12/outi.webp)
 パナソニックのFA-ML24TCPoE+からPoEでラズパイを起動してます。
 ELECOMのセールで買ったAPを動かすために、PoE給電できるスイッチングハブを用意していたのでちょうどよかったです。
 
 スイッチングハブの初期設定をする際に、コンソール接続する必要があって、シリアルポートで接続だるいなーって思ってたら
-![](teraterm.webp)
+![](/images/article-12/teraterm.webp)
 
 まさかのTera Termくんが対応してて、めちゃ助かりました。
 手元に、windows serverの環境がなかったのでまじで神です。
