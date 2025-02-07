@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 cssclasses:
   - zenn
 type: tech
@@ -9,7 +9,9 @@ topics:
 date: 2025-02-02
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/12-zenn-home-server-begin
-tags: []
+tags:
+  - raspberrypi
+  - proxmox
 aliases:
 ---
 # きっかけ
