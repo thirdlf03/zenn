@@ -9,14 +9,17 @@ topics:
 date: 2025-02-28
 AutoNoteMover: disable
 url: https://zenn.dev/thirdlf/articles/17-zenn-backend-fastapi-begin
-tags: 
+tags:
+  - fastapi
+  - python
+  - 初心者
 aliases:
 ---
 # 注意点
 この記事はバックエンド初心者向けに書いています。  
 理解しやすいよう、一部説明を簡略化している点をご了承ください。
 
-# はじめに
+	# はじめに
 この記事では、そもそもバックエンドとはどんなようなものなのかというところから始まり、基本的な機能を持ったバックエンドをハンズオン形式で作りながら学ぶことができるようになっています。
 
 使う言語はPythonなので、プログラミング初心者も臆せず、ぜひ挑戦してみてください！
