@@ -1,16 +1,16 @@
 ---
-published: false
+id: 22-zenn-dont-use-mouse
+aliases: []
+tags: []
+AutoNoteMover: disable
 cssclasses:
   - zenn
-type: tech
+date: "2025-04-19"
 emoji: 🐀
+published: false
 title: ShortcatとVimium, Vim(Neovim)で脱マウス生活
-topics: 
-date: 2025-04-19
-AutoNoteMover: disable
+type: tech
 url: https://zenn.dev/thirdlf/articles/22-zenn-dont-use-mouse
-tags: []
-aliases:
 ---
 # はじめに
 突然ですが、マウス操作ってめんどくさくないですか？
@@ -22,6 +22,18 @@ aliases:
 
 その紹介をしつつ、よく使っているキーやコマンドを書いていきます。
 # Shortcat
+Macのほぼ全ての操作をキーボードで行えるようになるアプリ
+
+## インストール
+```
+brew install shortcat
+```
+
+## コマンドパレット
+shift + command + spaceで開けます
+
+## よく使うやつ
+
 # Vimium
 # Neovim
 
