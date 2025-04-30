@@ -7,9 +7,9 @@ cssclasses:
   - zenn
 date: 2025-04-19
 emoji: 🐀
-published: false
+published: true
 title: ShortcatとVimium, Vim(Neovim)で脱マウス生活
-type: idea
+type: tech
 url: https://zenn.dev/thirdlf/articles/22-zenn-dont-use-mouse
 ---
 # はじめに
