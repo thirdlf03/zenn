@@ -10,7 +10,7 @@ cssclasses:
   - zenn
 date: 2025-05-04
 emoji: 📕
-published: false
+published: true
 title: NotebookLMを使った、Podcast勉強法
 type: idea
 url: https://zenn.dev/thirdlf/articles/24-zenn-notebooklm-learn
@@ -87,5 +87,5 @@ https://notebooklm.google.com/notebook/ef8ba104-117b-483c-850a-e3e128306ce5/audi
 また、あくまでAIが生成する音声のため情報を信じすぎず、ファクトチェックも忘れずにする必要があります。
 
 # 最後に
-日本語の読み方が不自然だったり、もう少し音声生成速度が速くなると嬉しい、という側面はありますが、学習がかなり捗るので、このPodcast勉強法はおすすめです。
+日本語の読み方が不自然なところがあったり、もう少し音声生成速度が速くなると嬉しい、という側面はありますが、学習がかなり捗るので、このPodcast勉強法はおすすめです。
 ぜひ試してみてください！
