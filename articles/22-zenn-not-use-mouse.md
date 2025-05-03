@@ -1,14 +1,14 @@
 ---
 id: 22-zenn-not-use-mouse
-aliases: 
-tags: 
-AutoNoteMover: disable
+aliases: []
+tags: []
+autonotemover: disable
 cssclasses:
   - zenn
-date: 2025-04-19
+date: "2025-04-19"
 emoji: 🐀
 published: true
-title: ShortcatとVimium, Vim(Neovim)で脱マウス生活
+title: shortcatとvimium, vim(neovim)で脱マウス生活
 type: tech
 url: https://zenn.dev/thirdlf/articles/22-zenn-dont-use-mouse
 ---
