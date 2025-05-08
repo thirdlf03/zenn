@@ -15,6 +15,7 @@ title: NotebookLMを使った、Podcast勉強法
 type: idea
 url: https://zenn.dev/thirdlf/articles/24-zenn-notebooklm-learn
 ---
+
 # はじめに
 皆さん、NotebookLMの音声概要を使っていますか？？
 NotebookLMをある程度使っている方なら機能自体は知っていると思いますが、今まで英語しか対応していなかったため、使う機会はあまりなかったかもしれません。
