@@ -124,7 +124,7 @@ https://discordpy.readthedocs.io/ja/stable/discord.html
 まず、discord.pyをimportしてbotを起動します
 
 main.py
-```python:main
+```python:main.py
 import discord
 from dotenv import load_dotenv
 import os
@@ -173,7 +173,7 @@ uv run main.py
 discordでbotが起動しているか確認
 
 次に、メッセージに反応してHello worldと発言するようにする。
-```python:main
+```python:main.py
 import discord
 from dotenv import load_dotenv
 import os
@@ -203,7 +203,7 @@ client.run(bot_token)
 ざっくり解説すると、
 
 ここで必要なライブラリのインポートとenvからTokenを取得しています
-```python:main
+```python:main.py
 import discord
 from dotenv import load_dotenv
 import os
@@ -214,7 +214,7 @@ bot_token = os.getenv("BOT_TOKEN")
 ```
 
 botの設定をして、Clientを初期化します。
-```python:main
+```python:main.py
 intents = discord.Intents.default()
 intents.message_content = True
 
@@ -223,13 +223,13 @@ client = discord.Client(intents=intents)
 
 botが発火するためのeventを設定していきます。
 今回は、メッセージを検知したらイベントが発火してほしいので on_messageを使っています。
-```python:main
+```python:main.py
 @client.event
 async def on_message(message):
 ```
 
 メッセージ主がclient.user(bot)だったら無視して、もしメッセージの中身が$helloから始まっていたら、そのメッセージが入力されたチャンネルにHello !と返すようになっています。
-```python:main
+```python:main.py
     if message.author == client.user:
         return
     if message.content.startswith('$hello'):
@@ -237,7 +237,7 @@ async def on_message(message):
 ```
 
 client.runでbot起動する
-```python:main
+```python:main.py
 client.run(bot_token)
 ```
 
@@ -291,7 +291,7 @@ Found 1 diagnostic
 これはbot_tokenがstrを期待しているのに対して、str | Noneになってしまっているからですね
 型ヒント与えましょう。
 
-```python:main
+```python:main.py
 bot_token: str | None = os.getenv("BOT_TOKEN")
 if bot_token is None:
     raise ValueError("BOT_TOKEN environment variable not set")
@@ -328,7 +328,7 @@ git commit -m "~~~"
 
 絵文字idは、絵文字を右クリックすることで確認することができます。
 もしidが出ない場合は、開発者モードにしましょう。
-```python:main
+```python:main.py
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -342,7 +342,7 @@ async def on_message(message):
 次に、メッセージ入力中と出てくるようにしましょう。
 typing()を使うことで入力中にすることができます。デフォルトの秒数が短いので、5秒ほどまってから入力するようにします。
 
-```python:main
+```python:main.py
 import asyncio
 
 ~~~
@@ -367,7 +367,7 @@ async def on_message(message):
 次に、$helloと入力したユーザーのメッセージにリアクションするようにしてみましょう。
 add_reactionでreactionつけることができます。
 
-```python:main
+```python:main.py
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -383,7 +383,7 @@ async def on_message(message):
 
 次は、ユーザーに返信する形にしてみましょう。
 sendのreferenceにmessageを指定してやります。
-```python:main
+```python:main.py
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -405,7 +405,7 @@ https://qiita.com/hisuie08/items/5b63924156080694fc81
 embed generatorなるものがあります
 https://message.style/app/editor
 
-```python:main:main
+```python:main.py:main
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -428,7 +428,7 @@ async def on_message(message):
 
 最終的なコード
 
-```python:main
+```python:main.py
 import discord
 from dotenv import load_dotenv
 import os
@@ -499,12 +499,12 @@ git commit -m "~~~"
 
 / 使ったコマンドをbotに実装していきますが、
 
-```python:main
+```python:main.py
 from discord.ext import commands
 ```
 
 commandsを使う際に、先ほどまで使っていたclientが邪魔になってしまうので改修していきます
-```python:main
+```python:main.py
 import discord
 from dotenv import load_dotenv
 import os
@@ -554,14 +554,416 @@ bot.run(bot_token)
 
 clientの代わりに、botを使っていきます。
 
-## View Classを作る
-discord.ui.Viewを継承した、独自のview classを定義していきます。
+## /helloを実装する
+discord.ui.Viewを継承した独自のview classを定義していきます。
 
-```python:main
+```python:main.py
 class MyView(discord.ui.View):
     @discord.ui.button(label="Click me!", style=discord.ButtonStyle.primary)
     async def button_callback(self, interaction: discord.Interaction, button: discord.Button):
         await interaction.response.send_message("Button clicked!")
 ```
 
-定義が終わったら、
+定義が終わったら、コマンドを使って呼び出すようにしましょう。
+
+コマンドを反映させるために、on_readyでbot.tree.sync()を呼び出す必要があります。
+```python:main.py
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+
+@bot.tree.command(name="hello", description="Hello world!")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message("Hello world!", view=MyView())
+```
+
+使ってみると
+
+感じ
+
+## /zipcodeを実装する
+今回は、zipcloudのapiを呼び出したいので requestsを追加していきます
+```bash
+uv add requests
+```
+
+import
+```python:main.py
+import requests
+```
+
+discord.ui.Modalを継承した独自のmodal classを定義していきます。
+```python:main.py
+class ZipcodeModal(discord.ui.Modal, title="郵便番号を入力してね"):
+    zipcode_input = discord.ui.TextInput(
+        label="ハイフン無しの郵便番号を入力してね", 
+        style=discord.TextStyle.short,
+        placeholder="Type your zipcode...",
+        required=True,
+        max_length=10
+    )
+    
+    async def on_submit(self, interaction: discord.Interaction):
+        address_list = fetch_address(self.zipcode_input.value)
+        await interaction.response.send_message(embed=create_embed(address_list))
+```
+
+住所を取ってくる関数とembed作る関数を定義する。
+```python:main.py
+def fetch_address(zipcode: str) -> list[str]:
+    url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+    response = requests.get(url)
+    address_list = []
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            for result in data["results"]:
+                address = f"{result['address1']}{result['address2']}{result['address3']}"
+                address_list.append(address)
+        else:
+            return "No results found."
+    else:
+        return "Error fetching data."
+    return address_list
+    
+def create_embed(address_list: list) -> discord.Embed:
+    embed = discord.Embed(
+        title="Address Search Results",
+        description="\n".join(address_list),
+        color=0x00FF00,
+    )
+    embed.set_footer(text="Powered by ZipCloud")
+    embed.set_author(name="Address Search Bot")
+    return embed
+```
+
+modalを呼び出すコマンドを設定
+```python:main.py
+@bot.tree.command(name="zipcode", description="search address by zipcode")
+async def search_address(interaction: discord.Interaction):
+    await interaction.response.send_modal(ZipcodeModal())
+```
+
+使ってみる
+
+
+最終的なコード
+```python:main.py
+import discord
+from dotenv import load_dotenv
+import os
+import asyncio
+import requests
+
+from discord.ext import commands
+
+load_dotenv()
+
+bot_token: str | None = os.getenv("BOT_TOKEN")
+if bot_token is None:
+    raise ValueError("BOT_TOKEN environment variable not set")
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="/", intents=intents)
+
+def fetch_address(zipcode: str) -> list[str]:
+    url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+    response = requests.get(url)
+    address_list = []
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            for result in data["results"]:
+                address = f"{result['address1']}{result['address2']}{result['address3']}"
+                address_list.append(address)
+        else:
+            return "No results found."
+    else:
+        return "Error fetching data."
+    return address_list
+    
+def create_embed(address_list: list) -> discord.Embed:
+    embed = discord.Embed(
+        title="Address Search Results",
+        description="\n".join(address_list),
+        color=0x00FF00,
+    )
+    embed.set_footer(text="Powered by ZipCloud")
+    embed.set_author(name="Address Search Bot")
+    return embed
+    
+
+class ZipcodeModal(discord.ui.Modal, title="郵便番号を入力してね"):
+    zipcode_input = discord.ui.TextInput(
+        label="ハイフン無しの郵便番号を入力してね", 
+        style=discord.TextStyle.short,
+        placeholder="Type your zipcode...",
+        required=True,
+        max_length=10
+    )
+    
+    async def on_submit(self, interaction: discord.Interaction):
+        address_list = fetch_address(self.zipcode_input.value)
+        await interaction.response.send_message(embed=create_embed(address_list))
+
+class MyView(discord.ui.View):
+    @discord.ui.button(label="Click me!", style=discord.ButtonStyle.primary)
+    async def button_callback(self, interaction: discord.Interaction, button: discord.Button):
+        await interaction.response.send_message("Button clicked!")
+        
+        
+        
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+    if message.content.startswith("$hello"):
+        await message.pin()
+        await message.add_reaction("👍")
+        emoji_id = 1375023893563310090
+        custom_emoji = f"<:emoji_name:{emoji_id}>"
+        async with message.channel.typing():
+            await asyncio.sleep(5)
+        await message.channel.send(
+            content=f"{message.author.mention} Hello world! {custom_emoji}",
+            reference=message,
+        )
+        embed = discord.Embed(
+            title="Hello World!",
+            description="This is an embedded message.",
+            color=0x00FF00,
+        )
+        embed.set_author(name=message.author.name)
+        embed.set_footer(text="This is a footer.")
+        await message.channel.send(embed=embed)
+    
+    await bot.process_commands(message)
+        
+@bot.event
+async def on_ready():
+    await bot.tree.sync()
+
+@bot.tree.command(name="hello", description="Hello world!")
+async def hello(interaction: discord.Interaction):
+    await interaction.response.send_message("Hello world!", view=MyView())
+
+@bot.tree.command(name="zipcode", description="search address by zipcode")
+async def search_address(interaction: discord.Interaction):
+    await interaction.response.send_modal(ZipcodeModal())
+
+bot.run(bot_token)
+
+```
+
+一区切りついたので、コミットしていきましょう。
+
+```bash
+uvx ruff check
+```
+
+```bash
+uvx ruff format
+```
+
+```bash
+uv ty check
+```
+
+```bash
+❯ uvx ty check                                                                                                                        0s✨   19:30
+WARN ty is pre-release software and not ready for production use. Expect to encounter bugs, missing features, and fatal errors.
+error[unresolved-import]: Cannot resolve imported module `discord.ext`
+ --> main.py:7:6
+  |
+5 | import requests
+6 |
+7 | from discord.ext import commands
+  |      ^^^^^^^^^^^
+8 |
+9 | load_dotenv()
+  |
+info: make sure your Python environment is properly configured: https://github.com/astral-sh/ty/blob/main/docs/README.md#python-environment
+info: rule `unresolved-import` is enabled by default
+
+error[invalid-return-type]: Return type does not match returned value
+  --> main.py:31:20
+   |
+29 |                 address_list.append(address)
+30 |         else:
+31 |             return "No results found."
+   |                    ^^^^^^^^^^^^^^^^^^^ expected `list[str]`, found `Literal["No results found."]`
+32 |     else:
+33 |         return "Error fetching data."
+   |
+  ::: main.py:20:36
+   |
+18 | bot = commands.Bot(command_prefix="/", intents=intents)
+19 |
+20 | def fetch_address(zipcode: str) -> list[str]:
+   |                                    --------- Expected `list[str]` because of return type
+21 |     url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+22 |     response = requests.get(url)
+   |
+info: rule `invalid-return-type` is enabled by default
+
+error[invalid-return-type]: Return type does not match returned value
+  --> main.py:33:16
+   |
+31 |             return "No results found."
+32 |     else:
+33 |         return "Error fetching data."
+   |                ^^^^^^^^^^^^^^^^^^^^^^ expected `list[str]`, found `Literal["Error fetching data."]`
+34 |     return address_list
+   |
+  ::: main.py:20:36
+   |
+18 | bot = commands.Bot(command_prefix="/", intents=intents)
+19 |
+20 | def fetch_address(zipcode: str) -> list[str]:
+   |                                    --------- Expected `list[str]` because of return type
+21 |     url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+22 |     response = requests.get(url)
+   |
+info: rule `invalid-return-type` is enabled by default
+
+Found 3 diagnostics
+```
+
+おっと、tyで引っかかってますね。
+
+問題の部分はここで、returnでstrが返ってくる可能性があるのにlist[str]しか返してませんね。
+
+```python:main.py
+def fetch_address(zipcode: str) -> list[str]:
+    url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+    response = requests.get(url)
+    address_list = []
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            for result in data["results"]:
+                address = (
+                    f"{result['address1']}{result['address2']}{result['address3']}"
+                )
+                address_list.append(address)
+        else:
+            return "No results found."
+    else:
+        return "Error fetching data."
+    return address_list
+```
+
+修正したバージョン
+```python:main.py
+def fetch_address(zipcode: str) -> list[str] | str:
+    url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+    response = requests.get(url)
+    address_list = []
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            for result in data["results"]:
+                address = (
+                    f"{result['address1']}{result['address2']}{result['address3']}"
+                )
+                address_list.append(address)
+        else:
+            return "No results found."
+    else:
+        return "Error fetching data."
+    return address_list
+```
+
+もう一回、
+```bash
+uvx ty check
+```
+を実行すると
+
+```bash
+❯ uvx ty check                                                                                                                        0s✨   19:31
+WARN ty is pre-release software and not ready for production use. Expect to encounter bugs, missing features, and fatal errors.
+error[unresolved-import]: Cannot resolve imported module `discord.ext`
+ --> main.py:7:6
+  |
+5 | import requests
+6 |
+7 | from discord.ext import commands
+  |      ^^^^^^^^^^^
+8 |
+9 | load_dotenv()
+  |
+info: make sure your Python environment is properly configured: https://github.com/astral-sh/ty/blob/main/docs/README.md#python-environment
+info: rule `unresolved-import` is enabled by default
+
+error[invalid-argument-type]: Argument to function `create_embed` is incorrect
+  --> main.py:62:68
+   |
+60 |     async def on_submit(self, interaction: discord.Interaction):
+61 |         address_list = fetch_address(self.zipcode_input.value)
+62 |         await interaction.response.send_message(embed=create_embed(address_list))
+   |                                                                    ^^^^^^^^^^^^ Expected `list[Unknown]`, found `list[str] | str`
+   |
+info: Function defined here
+  --> main.py:40:5
+   |
+40 | def create_embed(address_list: list) -> discord.Embed:
+   |     ^^^^^^^^^^^^ ------------------ Parameter declared here
+41 |     embed = discord.Embed(
+42 |         title="Address Search Results",
+   |
+info: rule `invalid-argument-type` is enabled by default
+
+Found 2 diagnostics
+```
+
+またエラーが出ましたね。
+今度はcreate_embedで受け取るaddress_listがlist[Unknown]って怒られてますね
+直していきましょう。
+```python:main.py
+    async def on_submit(self, interaction: discord.Interaction):
+        address_list = fetch_address(self.zipcode_input.value)
+        await interaction.response.send_message(embed=create_embed(address_list))
+```
+
+修正したコード
+```python:main.py
+    async def on_submit(self, interaction: discord.Interaction):
+        address_list: list[str] | str  = fetch_address(self.zipcode_input.value)
+        if isinstance(address_list, str):
+            await interaction.response.send_message(address_list)
+            return
+        await interaction.response.send_message(embed=create_embed(address_list))
+```
+
+もう一度ty check
+```
+uvx ty check
+```
+
+```bash
+❯ uvx ty check                                                                                                                        0s✨   19:34
+WARN ty is pre-release software and not ready for production use. Expect to encounter bugs, missing features, and fatal errors.
+error[unresolved-import]: Cannot resolve imported module `discord.ext`
+ --> main.py:7:6
+  |
+5 | import requests
+6 |
+7 | from discord.ext import commands
+  |      ^^^^^^^^^^^
+8 |
+9 | load_dotenv()
+  |
+info: make sure your Python environment is properly configured: https://github.com/astral-sh/ty/blob/main/docs/README.md#python-environment
+info: rule `unresolved-import` is enabled by default
+
+Found 1 diagnostic
+```
+unresolved-importに関しては、動作的にも問題なく動いてて解決策が分からなかったので放置
+おそらくtyがまだpre-releaseのためと思われる
+
+# 終わりに
+今回は、uv + ruff + tyを使いつつ割と本格的なdiscord botを作っていきました。
+uvやruff format以外はあんまり効果を実感できなかったかもしれませんが、チーム開発やもっと大規模な開発になると役に立つのでぜひ今後のpython開発で使ってみてください。
