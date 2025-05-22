@@ -12,8 +12,12 @@ title: uv + ruff + tyを使ったモダンな環境でdiscord bot作ってみよ
 type: tech
 url: https://zenn.dev/thirdlf/articles/26-zenn-uv-discordpy
 ---
-# 記事の趣旨
+![[スクリーンショット 2025-05-22 10.48.10.png]]# 記事の趣旨
 今回は、Astral社のツールを使ったモダンな環境でdiscord botを作っていこうという趣旨の記事です。
+ただ、メッセージを送るbotだと単純すぎるのでModalやViewを使ったより実践的なBotを作っていきます。
+
+# 対象読者
+一応、Python の書き方がわかれば読めるくらいの難易度ですがデコレーターや非同期処理はちょっと難しいかもしれないです。
 
 
 ## Astral社とは
@@ -97,17 +101,22 @@ discord botを作っていく前に、botを準備しましょう
 まず、開発者ポータルにアクセスしてログインする
 https://discord.com/developers/docs/intro
 
-
 ログインできたら、applicationページに飛ぶ
 https://discord.com/developers/applications
+![[/images/26/スクリーンショット 2025-05-22 10.48.10.png]]
+
 
 OAuth2のタブに行って、下の方にURL Generatorって項目があるのでbotを選択し、権限は適当なものを選びましょう
+![[/images/26/スクリーンショット 2025-05-22 10.54.14.png]]
 
 
+![[/images/26/スクリーンショット 2025-05-22 16.13.16.png]]
 サーバーにbotを追加できたら、次はbotを動かすためのtokenを取得します。
 
 botにタブに移動して、tokenって項目があるのでそこからtokenコピーしましょう。
 もし、reset tokenと書いてあればresetするとtokenが出てきます。
+
+![[/images/26/スクリーンショット 2025-05-22 10.58.30.png]]
 
 :::message alert 
 このtokenは外部に漏らさないように!!!!
@@ -143,8 +152,7 @@ client.run(bot_token)
 
 .envファイル作る
 
-.env
-```
+```env:.env
 BOT_TOKEN="your_token"
 ```
 
@@ -201,6 +209,7 @@ client.run(bot_token)
 
 この状態で、botを起動してチャットで$helloと入力するとHello!と返ってくるはずです。
 
+![[/images/26/スクリーンショット 2025-05-22 17.00.23.png]]
 ざっくり解説すると、
 
 ここで必要なライブラリのインポートとenvからTokenを取得しています
@@ -328,6 +337,8 @@ git commit -m "~~~"
 絵文字は、絵文字idを指定すると使えます。
 
 絵文字idは、絵文字を右クリックすることで確認することができます。
+![[/images/26/スクリーンショット 2025-05-22 17.14.37.png]]
+
 もしidが出ない場合は、開発者モードにしましょう。
 ```python:main.py
 @client.event
@@ -339,6 +350,8 @@ async def on_message(message):
         custom_emoji = f"<:emoji_name:{emoji_id}>"
         await message.channel.send(f"{message.author.mention} Hello world! {custom_emoji}")
 ```
+
+![[/images/26/スクリーンショット 2025-05-22 17.18.04.png]]
 
 次に、メッセージ入力中と出てくるようにしましょう。
 typing()を使うことで入力中にすることができます。デフォルトの秒数が短いので、5秒ほどまってから入力するようにします。
@@ -364,6 +377,8 @@ async def on_message(message):
 
 これで、5秒間入力状態になった後にメッセージを送信するようになりました。
 
+![[/images/26/スクリーンショット 2025-05-22 17.22.04.png]]
+
 
 次に、$helloと入力したユーザーのメッセージにリアクションするようにしてみましょう。
 add_reactionでreactionつけることができます。
@@ -382,6 +397,8 @@ async def on_message(message):
         await message.channel.send(f"{message.author.mention} Hello world! {custom_emoji}")
 ```
 
+![[/images/26/スクリーンショット 2025-05-22 17.26.17.png]]
+
 次は、ユーザーに返信する形にしてみましょう。
 sendのreferenceにmessageを指定してやります。
 ```python:main.py
@@ -397,6 +414,8 @@ async def on_message(message):
             await asyncio.sleep(5)
         await message.channel.send(content = f"{message.author.mention} Hello world! {custom_emoji}", reference = message)
 ```
+
+![[/images/26/スクリーンショット 2025-05-22 17.36.56.png]]
 
 最後に、embedでメッセージを送ったらあと、ユーザーのメッセージをピン留めしましょう。
 
@@ -426,6 +445,8 @@ async def on_message(message):
 ```
 
 だいぶ賑やかなHello Worldになりましたね！
+
+![[/images/26/スクリーンショット 2025-05-22 17.50.36.png]]
 
 最終的なコード
 
@@ -496,8 +517,13 @@ git commit -m "~~~"
 今回作っていくのは、
 /hello で　クリックボタンがあるビュー表示する
 /zipcode で 郵便番号検索できるモーダルを開く
-コマンド
+コマンドです。
 
+完成イメージ
+![[/images/26/スクリーンショット 2025-05-22 19.07.52.png]]
+![[/images/26/スクリーンショット 2025-05-22 22.44.50.png]]
+
+![[/images/26/スクリーンショット 2025-05-22 19.07.42.png]]
 / 使ったコマンドをbotに実装していきますが、
 
 ```python:main.py
@@ -578,9 +604,9 @@ async def hello(interaction: discord.Interaction):
     await interaction.response.send_message("Hello world!", view=MyView())
 ```
 
-使ってみると
+Botを起動して試してみましょう。
 
-感じ
+もし、/helloと入力してもコマンドが出てこない場合はdiscordを再起動する必要があります。
 
 ## /zipcodeを実装する
 今回は、zipcloudのapiを呼び出したいので requestsを追加していきます
