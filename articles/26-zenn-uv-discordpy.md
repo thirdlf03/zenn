@@ -83,6 +83,7 @@ uv add discord.py ruff ty python-dotenv
 高速なLinter & Formatter
 
 ## ty
+まだpre-release の型チェッカー
 型チェッカーで、mypyと比べてかなり高速になっているという噂
 
 
@@ -964,6 +965,190 @@ Found 1 diagnostic
 unresolved-importに関しては、動作的にも問題なく動いてて解決策が分からなかったので放置
 おそらくtyがまだpre-releaseのためと思われる
 
+# 発展(Cog・Extension) 
+discord.pyは確かに便利なんですが、一つのファイルが大きくなりがちです。
+それを解決するために、Cogを使っていこうと思います。
+
+## Cogとは
+Bot開発においてコマンドやリスナー、いくつかの状態を一つのクラスにまとめてしまいたい場合があるでしょう。コグはそれを実現したものです。
+
+らしいです。
+
+例えば、botに音楽を流す機能とゲーム管理する機能をつけたとして分離したいよねーみたいな時に使えます。
+
+今回は
+main.py メイン
+hello.py hello系のやつをまとめる
+other.py その他
+で分割してみようと思います。
+
+```python:main.py
+import discord
+from discord.ext import commands
+from dotenv import load_dotenv
+import os
+import asyncio
+
+
+load_dotenv()
+
+bot_token: str | None = os.getenv("BOT_TOKEN")
+if bot_token is None:
+    raise ValueError("BOT_TOKEN environment variable not set")
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+async def main():
+    bot = commands.Bot(command_prefix="/", intents=intents)
+    
+    @bot.event
+    async def on_ready():
+        print(f'Logged in as {bot.user} (ID: {bot.user.id})')
+        print('------')
+        await bot.tree.sync(guild=None)
+
+        
+    await bot.load_extension("hello")
+    await bot.load_extension("other")
+    
+    await bot.start(bot_token)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+```python:hello.py
+import discord
+from discord.ext import commands
+import asyncio
+
+class MyView(discord.ui.View):
+    @discord.ui.button(label="Click me!", style=discord.ButtonStyle.primary)
+    async def button_callback(
+        self, interaction: discord.Interaction, button: discord.Button
+    ):
+        await interaction.response.send_message("Button clicked!")
+
+class Hello(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author == self.bot.user:
+            return
+        if message.content.startswith("$hello"):
+            await message.pin()
+            await message.add_reaction("👍")
+            emoji_id = 1375023893563310090
+            custom_emoji = f"<:emoji_name:{emoji_id}>"
+            async with message.channel.typing():
+                await asyncio.sleep(5)
+            await message.channel.send(
+                content=f"{message.author.mention} Hello world! {custom_emoji}",
+                reference=message,
+            )
+            embed = discord.Embed(
+                title="Hello World!",
+                description="This is an embedded message.",
+                color=0x00FF00,
+            )
+            embed.set_author(name=message.author.name)
+            embed.set_footer(text="This is a footer.")
+            await message.channel.send(embed=embed)
+
+    @commands.hybrid_command(name="hello")
+    async def hello(self, ctx):
+        await ctx.send("Hello world!", view=MyView())
+        
+async def setup(bot):
+    await bot.add_cog(Hello(bot))
+```
+
+```python:other.py
+import discord
+from discord.ext import commands
+import requests
+
+class ZipcodeModal(discord.ui.Modal, title="郵便番号を入力してね"):
+    zipcode_input = discord.ui.TextInput(
+        label="ハイフン無しの郵便番号を入力してね",
+        style=discord.TextStyle.short,
+        placeholder="Type your zipcode...",
+    )
+
+    async def on_submit(self, interaction: discord.Interaction):
+        zipcode = self.zipcode_input.value
+        address_list = fetch_address(zipcode)
+        if isinstance(address_list, str):
+            await interaction.response.send_message(address_list)
+        else:
+            embed = create_embed(address_list)
+            await interaction.response.send_message(embed=embed)
+        
+def fetch_address(zipcode: str) -> list[str] | str:
+    url = f"https://zipcloud.ibsnet.co.jp/api/search?zipcode={zipcode}"
+    response = requests.get(url)
+    address_list = []
+    if response.status_code == 200:
+        data = response.json()
+        if data["results"]:
+            for result in data["results"]:
+                address = (
+                    f"{result['address1']}{result['address2']}{result['address3']}"
+                )
+                address_list.append(address)
+        else:
+            return "No results found."
+    else:
+        return "Error fetching data."
+    return address_list
+
+
+def create_embed(address_list: list) -> discord.Embed:
+    embed = discord.Embed(
+        title="Address Search Results",
+        description="\n".join(address_list),
+        color=0x00FF00,
+    )
+    embed.set_footer(text="Powered by ZipCloud")
+    embed.set_author(name="Address Search Bot")
+    return embed
+
+class Other(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        
+    @discord.app_commands.command(name="zipcode", description="search address by zipcode")
+    async def zipcode(self, interaction: discord.Interaction):
+        await interaction.response.send_modal(ZipcodeModal())
+        
+async def setup(bot):
+    await bot.add_cog(Other(bot))
+```
+
+かなりスッキリしましたね。
+
+## Extension (Hot Reload)
+実はしれっと使っているんですが、各cogファイルに書いたsetupを呼び出すのに使っています。
+
+```python:main.py
+await bot.load_extension("other")
+```
+
+今回使っているのは load_extensionですが、reload_extensionにするとbotを再起動せずに変更を試すことができます(hot reload)
+
+めちゃ便利
+```python:main.py
+await bot.reload_extension("other")
+```
+
+
+参考記事)
+https://zenn.dev/nano_sudo/articles/a00db1a55d6c4c
+
+
 # 終わりに
 今回は、uv + ruff + tyを使いつつ割と本格的なdiscord botを作っていきました。
-uvやruff format以外はあんまり効果を実感できなかったかもしれませんが、チーム開発やもっと大規模な開発になると役に立つのでぜひ今後のpython開発で使ってみてください。
+uvやruff format以外はあんまり効果を実感できなかったかもしれませんが、チーム開発やもっと大規模な開発になると役に立つのでぜひ今後のpython開発で使ってみてください。 
