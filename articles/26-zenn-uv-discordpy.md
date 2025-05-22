@@ -12,7 +12,7 @@ title: uv + ruff + tyを使ったモダンな環境でdiscord bot作ってみよ
 type: tech
 url: https://zenn.dev/thirdlf/articles/26-zenn-uv-discordpy
 ---
-![[スクリーンショット 2025-05-22 10.48.10.png]]# 記事の趣旨
+# 記事の趣旨
 今回は、Astral社のツールを使ったモダンな環境でdiscord botを作っていこうという趣旨の記事です。
 ただ、メッセージを送るbotだと単純すぎるのでModalやViewを使ったより実践的なBotを作っていきます。
 
@@ -103,20 +103,20 @@ https://discord.com/developers/docs/intro
 
 ログインできたら、applicationページに飛ぶ
 https://discord.com/developers/applications
-![[/images/26/スクリーンショット 2025-05-22 10.48.10.png]]
+![](/images/26/スクリーンショット 2025-05-22 10.48.10.png)
 
 
 OAuth2のタブに行って、下の方にURL Generatorって項目があるのでbotを選択し、権限は適当なものを選びましょう
-![[/images/26/スクリーンショット 2025-05-22 10.54.14.png]]
+![](/images/26/スクリーンショット 2025-05-22 10.54.14.png)
 
 
-![[/images/26/スクリーンショット 2025-05-22 16.13.16.png]]
+![](/images/26/スクリーンショット 2025-05-22 16.13.16.png)
 サーバーにbotを追加できたら、次はbotを動かすためのtokenを取得します。
 
 botにタブに移動して、tokenって項目があるのでそこからtokenコピーしましょう。
 もし、reset tokenと書いてあればresetするとtokenが出てきます。
 
-![[/images/26/スクリーンショット 2025-05-22 10.58.30.png]]
+![](/images/26/スクリーンショット 2025-05-22 10.58.30.png)
 
 :::message alert 
 このtokenは外部に漏らさないように!!!!
@@ -337,7 +337,7 @@ git commit -m "~~~"
 絵文字は、絵文字idを指定すると使えます。
 
 絵文字idは、絵文字を右クリックすることで確認することができます。
-![[/images/26/スクリーンショット 2025-05-22 17.14.37.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.14.37.png)
 
 もしidが出ない場合は、開発者モードにしましょう。
 ```python:main.py
@@ -351,7 +351,7 @@ async def on_message(message):
         await message.channel.send(f"{message.author.mention} Hello world! {custom_emoji}")
 ```
 
-![[/images/26/スクリーンショット 2025-05-22 17.18.04.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.18.04.png)
 
 次に、メッセージ入力中と出てくるようにしましょう。
 typing()を使うことで入力中にすることができます。デフォルトの秒数が短いので、5秒ほどまってから入力するようにします。
@@ -377,7 +377,7 @@ async def on_message(message):
 
 これで、5秒間入力状態になった後にメッセージを送信するようになりました。
 
-![[/images/26/スクリーンショット 2025-05-22 17.22.04.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.22.04.png)
 
 
 次に、$helloと入力したユーザーのメッセージにリアクションするようにしてみましょう。
@@ -397,7 +397,7 @@ async def on_message(message):
         await message.channel.send(f"{message.author.mention} Hello world! {custom_emoji}")
 ```
 
-![[/images/26/スクリーンショット 2025-05-22 17.26.17.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.26.17.png)
 
 次は、ユーザーに返信する形にしてみましょう。
 sendのreferenceにmessageを指定してやります。
@@ -415,7 +415,7 @@ async def on_message(message):
         await message.channel.send(content = f"{message.author.mention} Hello world! {custom_emoji}", reference = message)
 ```
 
-![[/images/26/スクリーンショット 2025-05-22 17.36.56.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.36.56.png)
 
 最後に、embedでメッセージを送ったらあと、ユーザーのメッセージをピン留めしましょう。
 
@@ -446,7 +446,7 @@ async def on_message(message):
 
 だいぶ賑やかなHello Worldになりましたね！
 
-![[/images/26/スクリーンショット 2025-05-22 17.50.36.png]]
+![](/images/26/スクリーンショット 2025-05-22 17.50.36.png)
 
 最終的なコード
 
@@ -520,10 +520,10 @@ git commit -m "~~~"
 コマンドです。
 
 完成イメージ
-![[/images/26/スクリーンショット 2025-05-22 19.07.52.png]]
-![[/images/26/スクリーンショット 2025-05-22 22.44.50.png]]
+![](/images/26/スクリーンショット 2025-05-22 19.07.52.png)
+![](/images/26/スクリーンショット 2025-05-22 22.44.50.png)
 
-![[/images/26/スクリーンショット 2025-05-22 19.07.42.png]]
+![](/images/26/スクリーンショット 2025-05-22 19.07.42.png)
 / 使ったコマンドをbotに実装していきますが、
 
 ```python:main.py
