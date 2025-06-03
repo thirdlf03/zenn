@@ -1,5 +1,5 @@
 ---
-id: 27-zenn-gRPC-golang
+id: 27-zenn-grpc-golang
 aliases: 
 tags: 
 autonotemover: disable
@@ -10,7 +10,7 @@ emoji: 🐀
 published: false
 title: Connect-goとBufを使って、GoでgRPC入門してみよう
 type: tech
-url: https://zenn.dev/thirdlf/articles/27-zenn-gRPC-golang
+url: https://zenn.dev/thirdlf/articles/27-zenn-grpc-golang
 ---
 # この記事の目的
 タイトル通り、gRPC入門してみようという趣旨の記事です。
