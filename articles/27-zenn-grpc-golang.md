@@ -6,8 +6,8 @@ autonotemover: disable
 cssclasses:
   - zenn
 date: 2025-06-03
-emoji: 🐀
-published: false
+emoji: 🛜
+published: true
 title: Connect-goとBufを使って、GoでgRPC入門してみよう
 type: tech
 url: https://zenn.dev/thirdlf/articles/27-zenn-grpc-golang
