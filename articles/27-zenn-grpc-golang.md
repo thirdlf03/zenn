@@ -1,7 +1,9 @@
 ---
 id: 27-zenn-grpc-golang
 aliases: 
-tags: 
+tags:
+  - grpc
+  - go
 autonotemover: disable
 cssclasses:
   - zenn
