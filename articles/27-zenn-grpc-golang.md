@@ -207,7 +207,7 @@ message TaskList {
 `repeated` キーワードは、フィールドが配列であることを示します。
 上記の例では、`TaskList` messageは、複数の `Task` を持つことができます。
 
-# 使用できるデータ型
+## 使用できるデータ型
 | Proto Type | 説明                                   |
 | ---------- | ------------------------------------ |
 | int32      | 符号付き32ビット整数                          |
@@ -558,7 +558,7 @@ go run ./cmd/client/main.go
 ```
 
 良さそうですね
-```
+```sh
 ❯ go run cmd/client/main.go                                                                                                             ✨   00:01
 2025/06/05 00:01:30 Hello, Jane!
 ```
@@ -569,7 +569,7 @@ getting-startedだと、Unary RPCしかやってなかったので他も触っ�
 参考) 
 https://zenn.dev/hsaki/books/golang-grpc-starting/viewer/stream
 
-サーバー側をGo、クライアント側をGoとFlutterにします。
+サーバー側をGo、クライアント側をGoにします。
 
 
 新しくディレクトリ作成する
@@ -613,7 +613,7 @@ buf config init
 ```
 
 リント
-```
+```sh
 buf lint
 ```
 
@@ -729,21 +729,316 @@ mkdir -p cmd/server/
 touch cmd/server/main.go
 ```
 
-```cmd/server/main.go
+コード
+```go:cmd/server/main.go
+package main
 
+import (
+	chatv1 "chat/gen/chat/v1"
+	"chat/gen/chat/v1/chatv1connect"
+	"connectrpc.com/connect"
+	"context"
+	"fmt"
+	"io"
+	"log"
+	"net/http"
+	"time"
+
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
+)
+
+type ChatServer struct{}
+
+func (s *ChatServer) ClientChat(
+	ctx context.Context,
+	stream *connect.ClientStream[chatv1.ClientChatRequest],
+) (*connect.Response[chatv1.ClientChatResponse], error) {
+	log.Println("ClientChat開始")
+
+	var messages []string
+	for stream.Receive() {
+		req := stream.Msg()
+		log.Printf("受信: ユーザー=%s, メッセージ=%s", req.User, req.Message)
+		messages = append(messages, fmt.Sprintf("%s: %s", req.User, req.Message))
+	}
+
+	if err := stream.Err(); err != nil {
+		return nil, connect.NewError(connect.CodeInvalidArgument, err)
+	}
+
+	response := &chatv1.ClientChatResponse{
+		Message: fmt.Sprintf("受信した%d件のメッセージ: %v", len(messages), messages),
+	}
+
+	log.Printf("ClientChatレスポンス: %s", response.Message)
+	return connect.NewResponse(response), nil
+}
+
+func (s *ChatServer) ServerChat(
+	ctx context.Context,
+	req *connect.Request[chatv1.ServerChatRequest],
+	stream *connect.ServerStream[chatv1.ServerChatResponse],
+) error {
+	log.Printf("ServerChat開始: ユーザー=%s, メッセージ=%s", req.Msg.User, req.Msg.Message)
+
+	for i := 1; i <= 5; i++ {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+
+		response := &chatv1.ServerChatResponse{
+			Message: fmt.Sprintf("サーバーからのメッセージ %d/5: %sさん、「%s」への応答です",
+				i, req.Msg.User, req.Msg.Message),
+		}
+
+		if err := stream.Send(response); err != nil {
+			return err
+		}
+
+		log.Printf("送信: %s", response.Message)
+		time.Sleep(1 * time.Second)
+	}
+
+	log.Println("ServerChat完了")
+	return nil
+}
+
+func (s *ChatServer) BidirectionalChat(
+	ctx context.Context,
+	stream *connect.BidiStream[chatv1.BidirectionalChatRequest, chatv1.BidirectionalChatResponse],
+) error {
+	log.Println("BidirectionalChat開始")
+
+	for {
+		select {
+		case <-ctx.Done():
+			return ctx.Err()
+		default:
+		}
+
+		req, err := stream.Receive()
+		if err != nil {
+			if err == io.EOF {
+				log.Println("BidirectionalChat正常終了")
+				return nil
+			}
+			return err
+		}
+
+		log.Printf("双方向受信: ユーザー=%s, メッセージ=%s", req.User, req.Message)
+
+		response := &chatv1.BidirectionalChatResponse{
+			Message: fmt.Sprintf("エコー: %sさんから「%s」を受信しました", req.User, req.Message),
+		}
+
+		if err := stream.Send(response); err != nil {
+			return err
+		}
+
+		log.Printf("双方向送信: %s", response.Message)
+	}
+}
+
+func main() {
+	chatServer := &ChatServer{}
+
+	mux := http.NewServeMux()
+
+	path, handler := chatv1connect.NewChatServiceHandler(chatServer)
+
+	mux.Handle(path, handler)
+	
+	err := http.ListenAndServe(
+		"localhost:8080",
+		h2c.NewHandler(mux, &http2.Server{}),
+	)
+	if err != nil {
+		log.Fatalf("サーバー起動エラー: %v", err)
+	}
+
+}
 ```
 
+## クライアント側 (Go)
 ```sh
 mkdir -p cmd/client/
 touch cmd/client/main.go
 ```
 
+```go:cmd/client/main.go
+package main
 
-## クライアント側
-AndroidStudio等で新規でFlutterプロジェクトを作成してください
+import (
+	chatv1 "chat/gen/chat/v1"
+	"chat/gen/chat/v1/chatv1connect"
+	"connectrpc.com/connect"
+	"context"
+	"crypto/tls"
+	"io"
+	"log"
+	"net"
+	"net/http"
+	"time"
+	
+	"golang.org/x/net/http2"
+)
+
+func main() {
+	httpClient := &http.Client{
+		Transport: &http2.Transport{
+			AllowHTTP: true,
+			DialTLS: func(network, addr string, cfg *tls.Config) (net.Conn, error) {
+				return net.Dial(network, addr)
+			},
+		},
+	}
+
+	client := chatv1connect.NewChatServiceClient(
+		httpClient,
+		"http://localhost:8080",
+	)
+
+	ctx := context.Background()
+
+
+	log.Println("\n1. ClientChatをテスト中...")
+	testClientChat(ctx, client)
+
+	time.Sleep(2 * time.Second)
+
+	log.Println("\n2. ServerChatをテスト中...")
+	testServerChat(ctx, client)
+
+	time.Sleep(2 * time.Second)
+
+	log.Println("\n3. BidirectionalChatをテスト中...")
+	testBidirectionalChat(ctx, client)
+
+	log.Println("\n=== すべてのテスト完了 ===")
+}
+
+
+func testClientChat(ctx context.Context, client chatv1connect.ChatServiceClient) {
+	stream := client.ClientChat(ctx)
+
+	messages := []struct {
+		user    string
+		message string
+	}{
+		{"田中", "こんにちは！"},
+		{"田中", "今日はいい天気ですね"},
+		{"田中", "よろしくお願いします"},
+	}
+
+	for _, msg := range messages {
+		req := &chatv1.ClientChatRequest{
+			User:    msg.user,
+			Message: msg.message,
+		}
+		
+		if err := stream.Send(req); err != nil {
+			log.Fatalf("ClientChat送信エラー: %v", err)
+		}
+		log.Printf("送信: %s: %s", msg.user, msg.message)
+		time.Sleep(500 * time.Millisecond)
+	}
+
+	resp, err := stream.CloseAndReceive()
+	if err != nil {
+		log.Fatalf("ClientChatクローズエラー: %v", err)
+	}
+
+	log.Printf("ClientChatレスポンス: %s", resp.Msg.Message)
+}
+
+func testServerChat(ctx context.Context, client chatv1connect.ChatServiceClient) {
+	req := connect.NewRequest(&chatv1.ServerChatRequest{
+		User:    "佐藤",
+		Message: "サーバーストリーミングのテストです",
+	})
+
+	stream, err := client.ServerChat(ctx, req)
+	if err != nil {
+		log.Fatalf("ServerChat開始エラー: %v", err)
+	}
+
+	log.Printf("ServerChatリクエスト送信: %s: %s", req.Msg.User, req.Msg.Message)
+
+	for stream.Receive() {
+		resp := stream.Msg()
+		log.Printf("ServerChatレスポンス: %s", resp.Message)
+	}
+
+	if err := stream.Err(); err != nil {
+		log.Fatalf("ServerChatストリームエラー: %v", err)
+	}
+	log.Println("ServerChat完了")
+}
+
+func testBidirectionalChat(ctx context.Context, client chatv1connect.ChatServiceClient) {
+	stream := client.BidirectionalChat(ctx)
+
+	go func() {
+		messages := []struct {
+			user    string
+			message string
+		}{
+			{"山田", "双方向チャット開始"},
+			{"山田", "メッセージ1"},
+			{"山田", "メッセージ2"},
+			{"山田", "メッセージ3"},
+		}
+
+		for _, msg := range messages {
+			req := &chatv1.BidirectionalChatRequest{
+				User:    msg.user,
+				Message: msg.message,
+			}
+
+			if err := stream.Send(req); err != nil {
+				log.Printf("BidirectionalChat送信エラー: %v", err)
+				return
+			}
+
+			log.Printf("双方向送信: %s: %s", msg.user, msg.message)
+			time.Sleep(1 * time.Second)
+		}
+
+		if err := stream.CloseRequest(); err != nil {
+			log.Printf("BidirectionalChatクローズエラー: %v", err)
+		}
+	}()
+
+	for {
+		resp, err := stream.Receive()
+		if err != nil {
+			if err == io.EOF {
+				log.Println("BidirectionalChat正常終了")
+				break
+			}
+			log.Fatalf("BidirectionalChatストリームエラー: %v", err)
+		}
+		log.Printf("双方向受信: %s", resp.Message)
+	}
+	
+	log.Println("BidirectionalChat完了")
+}
+```
+
+
+## クライアント側 (Flutter) おまけ
+
+flutterプロジェクト作成
+```sh
+flutter create chat_flutter
+cd chat_flutter
+```
 
 protoファイル作成
-```
+```sh
 mkdir -p chat/v1/
 touch chat/v1/chat.proto
 ```
@@ -1326,3 +1621,4 @@ class _ChatPageState extends State<ChatPage> {
   }
 }
 ```
+
