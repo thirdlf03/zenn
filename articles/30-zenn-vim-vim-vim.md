@@ -9,7 +9,7 @@ cssclasses:
 date: 2025-06-03
 emoji: 🛜
 published: false
-title: 生成AI?うるせえぇVimだVim！Vimを使うんだ！！！
+title: 生成AI?うるせぇVimだVim！Vimを使ってコードを書くんだ！！！
 type: tech
 url: https://zenn.dev/thirdlf/articles/30-zenn-vim-vim-vim
 ---
@@ -25,4 +25,37 @@ Code Assistなどいろんな生成AIを用いたコーディング支援ツー�
 
 **もう疲れたよ！！！！**
 
-いや、トレンドを追いかける楽しさはあるけれど、このトレンドのへんか
+いや、トレンドを追いかける楽しさはあるけれども...
+
+そんなAI疲れしたプログラマーに、Vimを使ってコードを書く楽しさを伝えたい！！！(伝われ〜〜〜）
+
+# まず、Vimをインストールしよう
+
+## Mac
+デフォルトでインストールされてます(だって、**標準のエディター**だからね)
+ターミナルで、
+```zsh
+vim
+```
+って入力して何も出てこない場合、Homebrewでインストールしましょう。
+```zsh
+brew install vim
+```
+
+## Windows
+~~導入結構めんどくさい~~Windows 11だと、デフォルトでwinget入っているらしい
+```powershell
+winget install Vim.Vim
+```
+
+知らぬ間に便利になってる
+
+## linux
+省略
+
+
+
+
+
+
+
