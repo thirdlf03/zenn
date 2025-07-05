@@ -138,7 +138,8 @@ Vim is the best editor in the world.
 ノーマルモードに移行後、VimのVにカーソルを合わせて w を押してみましょう。
 wを押すと、次の単語に飛ぶはずです。前の単語にいきたい場合は、bを押しましょう。
 
-次は、VimのVにカーソルを合わせて、eを押してみましょう！wと少し挙動はしていますが、eは、単語の終点位置に移動するって形になっています。
+次は、VimのVにカーソルを合わせて、eを押してみましょう！
+wと少し挙動はしていますが、eは、単語の終点位置に移動するって形になっています。
 VimのVだったら、mまで移動。もし、終端にいる場合は次の単語の終端に移動します。
 
 wやb, eを連打するのがめんどくさかったら、 数字 + w と入力してみましょう。
@@ -185,6 +186,121 @@ aaa
 もうすでに、Vimの虜になってきていると思います。やったね
 
 続いてお待ちかねの編集系のコマンドを触っていきます。
+
+その前に一旦保存しましょう！
+:w で保存できます。
+もし、休憩したい場合
+:wqで保存した後、Vimを終了することができます。
+
+
+## 編集系
+まずは、削除に関するものから触っていきましょう。
+
+Hello World. のWにカーソルを合わせてください。
+その状態で、dw と入力してみましょう。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+って状態になったと思います。uを押すと操作を取り消すことができるので、uを押してみましょう。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+Hello World. に戻ったと思います。
+
+引き続きWに合わせた状態で、dbと入力してみましょう。
+すると、
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+World.
+aaa
+```
+になったと思います。uで戻します
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+
+今度は、Wにカーソルを合わせてd$と入力してみましょう。
+すると
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello 
+aaa
+```
+
+となったはずです。uで戻しますね
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+
+次は、HelloのHにカーソルを合わせた状態で d3wと入力してみましょう！
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+
+aaa
+```
+
+全部消えてしまいましたね。 uで戻します。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+
+感の良い方なら、ある法則を見つけていると思います
+## オペレータとモーション、カウント
+削除の時、 d (delete ) と wやb、$など移動系で使ったコマンドを組み合わせていましたよね？
+
+d のように、削除などの操作を行うものは**オペレータ**と呼ばれまてす。
+wやb、$のように、移動に関するものは**モーション**と呼ばれてます。
+
+つまり、
+オペレータ + モーションでやりたいことを実現できます。
+
+なので、先ほど削除で使っていたコマンドは
+
+dw 現在のカーソル位置から、次の単語の位置まで削除
+db 現在のカーソル位置から、前の単語の位置まで削除
+d$ 現在のカーソル位置から、行末まで削除
+
+を意味しています。
+
+さらに、
+オペレータ + カウント + モーション と指定することもできます。
+カウントとは、2wのようにモーションや特定の動作の前につける数字のことです。
+
+ex)
+d2w 現在のカーソル位置から、2つ次の単語の位置まで削除
+
+を意味していました。
+
+このように応用がきくところが、Vimの好きなところです
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
