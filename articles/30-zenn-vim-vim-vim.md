@@ -94,7 +94,7 @@ vimtutor
 と入力しましょう！
 
 
-他にも、練習できるサイトがあるので遊んでみるのがおすすめです。
+他にも、hjkl移動を練習できるサイトがあるので遊んでみるのがおすすめです。
 https://vimate.jp/lessons/vimmer-01
 
 ちなみに僕のスコアです
@@ -200,10 +200,10 @@ Hello World. のWにカーソルを合わせてください。
 その状態で、dw と入力してみましょう。
 ```md:vimmer.md
 Vim is the best editor in the world. My favorite editor is Vim.
-Hello World.
+Hello .
 aaa
 ```
-って状態になったと思います。uを押すと操作を取り消すことができるので、uを押してみましょう。
+って状態になったと思います。u (undo) を押すと操作を取り消すことができるので、uを押してみましょう。
 ```md:vimmer.md
 Vim is the best editor in the world. My favorite editor is Vim.
 Hello World.
@@ -248,11 +248,7 @@ aaa
 ```
 
 全部消えてしまいましたね。 uで戻します。
-```md:vimmer.md
-Vim is the best editor in the world. My favorite editor is Vim.
-Hello World.
-aaa
-```
+ello 
 
 感の良い方なら、ある法則を見つけていると思います
 ## オペレータとモーション、カウント
@@ -282,6 +278,53 @@ d2w 現在のカーソル位置から、2つ次の単語の位置まで削除
 を意味していました。
 
 このように応用がきくところが、Vimの好きなところです
+
+まだ紹介していない、削除系のコマンドを使っていきます。
+
+HelloのHにカーソルを合わせて、xを押してみましょう。
+
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+ello World.
+aaa
+```
+一文字削除されたと思います。 そのまま5xと入力してみましょう。
+
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+World.
+aaa
+```
+
+xが5回繰り返されましたね！ ここで、U(大文字のu) を入力してみましょう。
+
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+aaa
+```
+大文字のUは、カーソルの行で行われた変更をまとめて戻すことができます。
+
+次は、Hello World.のどこかにカーソルを移動し、ddと入力してみます。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+aaa
+```
+行全体が消えたと思います。uで戻した後、2ddと入力してみましょう
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+```
+
+2行分消えましたね！
+
+## 削除系コマンドまとめ
+| キー         | 内容                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| d + モーション (d + カウント + モーション)         | モーションでどこまで削除するのか指定して、削除|
+| x | カーソルの位置の文字を削除する|
+| dd       | 行全体を削除             |
+
+
 
 
 
