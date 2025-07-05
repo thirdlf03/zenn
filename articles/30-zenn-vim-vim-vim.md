@@ -196,6 +196,7 @@ aaa
 # 編集系
 まずは、削除に関するものから触っていきましょう。
 
+## 削除系
 Hello World. のWにカーソルを合わせてください。
 その状態で、dw と入力してみましょう。
 ```md:vimmer.md
@@ -248,7 +249,19 @@ aaa
 ```
 
 全部消えてしまいましたね。 uで戻します。
-ello 
+
+次は、Hello World.のどこかにカーソルを移動し、ddと入力してみます。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+aaa
+```
+
+行全体が消えたと思います。uで戻した後、2ddと入力してみましょう
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+```
+
+2行分消えましたね！uで戻しておきましょう。
 
 感の良い方なら、ある法則を見つけていると思います
 # オペレータとモーション、カウント
@@ -275,6 +288,11 @@ d$ 現在のカーソル位置から、行末まで削除
 d2w 現在のカーソル位置から、2つ次の単語の位置まで削除
 
 を意味していました。
+
+また、オペレータにはもう一つ特徴があり、ddのように2回繰り返すと行全体と指定することができます。
+もちろん、カウント + ddも可能です。
+後述のオペレータである、cやyも同じことが言えます。
+
 
 このように応用がきくところが、Vimの好きなところです
 
@@ -304,51 +322,219 @@ aaa
 ```
 大文字のUは、カーソルの行で行われた変更をまとめて戻すことができます。
 
-次は、Hello World.のどこかにカーソルを移動し、ddと入力してみます。
-```md:vimmer.md
-Vim is the best editor in the world. My favorite editor is Vim.
-aaa
-```
-行全体が消えたと思います。uで戻した後、2ddと入力してみましょう
-```md:vimmer.md
-Vim is the best editor in the world. My favorite editor is Vim.
-```
 
-2行分消えましたね！
-
-## 削除系コマンドまとめ
+### 削除系コマンドまとめ
 | キー         | 内容                                                                    |
 | ---------- | --------------------------------------------------------------------- |
 | d + モーション (d + カウント + モーション)         | モーションでどこまで削除するのか指定して、削除|
 | x | カーソルの位置の文字を削除する|
 | dd       | 行全体を削除             |
 
+## 編集系
+c というオペレータを使っていきます。
+WorldのWにカーソルを合わせて、ce と入力してみましょう。
+すると、単語を削除した上でINSERTモードに移行したと思います。任意の文字を入れてみましょう。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello thirdlf.
+aaa
+```
+
+次に、Hello ~~の行にカーソルを合わせてoと入力してみましょう。
+すると、１行改行したあとINSERTモードに移行したと思います。何も入力せずにESC押しましょう。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello thirdlf.
+
+aaa
+```
+
+また、Hello ~~の行にカーソルを合わせて今度は O と入力してみましょう。
+すると、１行上に移動した上でINSERTモードに移行したと思います。便利ですね
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+
+Hello thirdlf.
+
+aaa
+```
+このoやOは、かなり便利なので覚えておきましょう！
+
+### 編集系コマンドまとめ
+| キー         | 内容                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| c + モーション (c + カウント + モーション)         | モーションでどこまで削除するのか指定して、削除したあとINSERTモードに入る|
+| o       | １行下に改行して、INSERTモードに移行            |
+| O | １行上に改行して、INSERTモードに移行 | 
+
+## 置換系
+aaaの先頭にカーソルを合わせて、rxと入力してみましょう。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+xaa
+```
+aがxに置き換わったと思います。rは現在のカーソル位置の一文字を任意の文字に置き換えるコマンドです。
+
+次は、xにカーソルを合わせた状態で3rあ と入力してみてください。
+
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello World.
+あああ
+```
+xaaが あああに変わりましたね。
+
+次は、WorldのWにカーソルを合わせて Rを押してみましょう！
+大文字のRを押すとReplaceモードに移行します。
+適当に文字を入力してみましょう。今回は、Vimmer.と入力してみます。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello Vimmer.
+あああ
+```
+Replaceモードに入ると、ESC押すまで入力した文字を置き換えていきます。
+
+### 置換系コマンドまとめ
+| キー         | 内容                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| r + 任意の一文字| カーソル位置の一文字を任意の文字に置換|
+| R | REPLACE MODEに移行します。ノーマルモードに戻すにはESC|
+
+### おまけ(sed)
+Vim is ~~って書いている行のどこかにカーソルを持っていき、
+:s/Vim/VSCode/g と入力してみましょう。
+
+```md:vimmer.md
+VSCode is the best editor in the world. My favorite editor is VSCode.
+Hello Vimmer.
+あああ
+```
+
+sedに詳しい人は、これが一番早いです。
+
+## コピー & ペースト
+もちろん、コピペもできます。
+yを使ってコピーしていきます。yはオペレータです。
+VimmerのVにカーソルを持っていき、yeと入力します。
+入力後、pを押してみましょう。 すると、現在のカーソルの位置にVimmerって単語が貼り付けられるはずです。
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello VVimmerimmer.
+あああ
+```
+Vimでは、コピーのことをヤンク(yank)と呼びます。なので、yを使っています。
+
+もちろん、オペレータなのでyyと入力すると行全体コピーしたり、3yyで現在のカーソル位置から3行下にヤンクできます。
+
+次は、VISUALモードを使ったヤンクをやってみましょう。
+
+aaaのどこかにカーソルを持っていき、Vと入力しましょう
+すると、VISUALモードと呼ばれるモードに移行します。
+その状態で、kを押してVim ~~の行まで選択します。選択できたら、yを押してヤンク。
+pを押して貼り付けてみましょう。
+
+```md:vimmer.md
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello Vimmer.
+aaa
+Vim is the best editor in the world. My favorite editor is Vim.
+Hello Vimmer.
+aaa
+```
+
+視覚的にどこをヤンクするか確かめるのに、VISUALモードは役に立ちます！
+
+### コピー & ペーストコマンドまとめ
+| キー         | 内容                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| y + モーション (y + カウント + モーション)         | モーションでどこまでヤンクするのか指定して、ヤンクする|
+| p       | ヤンクした内容を貼り付ける|
+| V | VISUALモードに移行する | 
+
+# いざ、実践！
+ここまで学んだ知識を使って、Vimmerの編集速度を体感してもらう問題を用意しました！
+```bash
+vim problem.md
+```
+以下の内容を、mdファイルに貼り付けてください。 ctrl + v (cmd + v)で貼り付けることができます。
+
+```md:problem.md
+name = "hoge"
+
+def vimmer(name: int) -> str:
+   printf("Welcome to vim hoge world, name")
+
+```
+
+このファイルを、以下のような状態にしたいです。
+```md:problem.md
+name = "thirdlf"
+
+def vimmer(name: str):
+   print(f"Welcome to Vim world, {name}")
+
+vimmer(name)
+```
+
+どのように入力したら早く編集できそうか、考えてみてください！
+
+:::details 入力例
+あくまで一例です。
+```
+gg → 3w → ce → thirdlf → ESC → 3gg → 5w → R → str → ESC → 2l → d3w → e → x → a → f → ESC → 5w  → dw →
+2w → i → { → ESC → e → a → } → ESC → G → o → vimmer(name) で完了
+```
+:::
+
+# 終わりに
+Vimの魅力伝わりましたか？ ここまで記事を読んでくださった方々は、もうVimの虜になっていることでしょう。
+
+しかし、この記事で書いている内容はあくまでチュートリアルにすぎません。
+
+この先は、もっとVim使えるようになりたい！ 普段のエディターVimにしたい！って方向けの情報です。
+## vimtutor
+冒頭でも紹介しましたが、公式のチュートリアルがございます。この記事で紹介していない内容も数多く含まれているので、是非やってみてください！
+
+```bash
+vimtutor
+```
+
+で起動できます。
+
+日本語版も存在してます！
+
+## Neovim
+普段のコーディングでVimを使いたいとなった場合、最近はNeovimというエディターが主流です。
+僕も普段使いしているのは、neovim(nvim)です。
+
+以下の記事が参考になります。
+https://zenn.dev/vim_jp/articles/1b4344e41b9d5b
+
+公式URL
+https://neovim.io/
+
+## VimConf
+年に一度行われるVimのカンファレンスです。
+今年は、11月2日 アキバプラザ・アキバホールで
+VimConf 2025 Smallが行われる予定です。
+
+https://vimconf.org/2025/ja/
+
+行きたいな...
+
+## Vim駅伝
+Vimが好きな方々が集まり、リレー形式で記事を書いているアドベントカレンダーのようなものです。
+暇な時に覗いてみると、新しい発見があって面白いです！
+
+https://vim-jp.org/ekiden/
+
+## Vimium
+Chromeの操作をVimライクにできる拡張機能です！
+使いこなせると普段のブラウザ操作がかなり快適になるので、おすすめです。
+
+https://zenn.dev/mkobayashime/articles/vimium-vim-browser
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+楽しいvimライフを〜〜〜
