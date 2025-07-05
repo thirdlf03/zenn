@@ -22,11 +22,18 @@ url: https://zenn.dev/thirdlf/articles/30-zenn-vim-vim-vim
 最近、やれClaude CodeやGemini CLI、CursorやGitHub Copilot、Cline、Roo Code、Windsurf、Devin、Amazon Q Developer CLI、OpenHands CLI、Codex、Gemini Code Assistなどいろんな生成AIを用いたコーディング支援ツールが出てきてますよね？
 モデルも、Gemini 2.5 ProやClaude Opus 4、o3 proなどAIの成長が止まらないし...
 
-**もう疲れたよ！！！！**
+**正直、もう疲れたよ！！！！**
 
-いや、トレンドを追いかける楽しさはあるけれども...
+いや、トレンドを追いかける楽しさはあるし、ものを作るのが好きな人間なので思いついたものをすぐ作れるのは楽しいけどね...
 
-そんなAI疲れしたプログラマーに、Vimを使ってコードを書く楽しさを伝えたい！！！(伝われ〜〜〜）
+そんなAI疲れしているプログラマーの方ってちらほらいる気がします。
+
+加えて、生成AIの便利さゆえに
+「自分の手でコードを書く楽しさ」を忘れてしまった人、
+そもそも楽しさを味わえずにいる初学者も増えている気がしています。
+
+そんな方々に、Vimでコードを書く楽しさを伝えたい！！！！
+伝われ〜〜〜！！って記事です。
 
 # まず、Vimをインストールしよう
 
@@ -267,7 +274,7 @@ Vim is the best editor in the world. My favorite editor is Vim.
 # オペレータとモーション、カウント
 削除の時、 d (delete ) と wやb、$など移動系で使ったコマンドを組み合わせていましたよね？
 
-d のように、削除などの操作を行うものは**オペレータ**と呼ばれまてす。
+d のように、削除などの操作を行うものは**オペレータ**と呼ばれてます。
 wやb、$のように、移動に関するものは**モーション**と呼ばれてます。
 
 つまり、
@@ -482,8 +489,8 @@ vimmer(name)
 :::details 入力例
 あくまで一例です。
 ```
-gg → 3w → ce → thirdlf → ESC → 3gg → 5w → R → str → ESC → 2l → d3w → e → x → a → f → ESC → 5w  → dw →
-2w → i → { → ESC → e → a → } → ESC → G → o → vimmer(name) で完了
+gg → 3w → ce → thirdlf → ESC → 3gg → 5w → R → str → ESC → 2l → d3w → e → x →
+ a → f → ESC → 5w  → dw → 2w → i → { → ESC → e → a → } → ESC → G → o → vimmer(name) で完了
 ```
 :::
 
@@ -502,7 +509,10 @@ vimtutor
 
 で起動できます。
 
-日本語版も存在してます！
+日本語版も存在します！
+```
+vimtutor ja
+```
 
 ## Neovim
 普段のコーディングでVimを使いたいとなった場合、最近はNeovimというエディターが主流です。
@@ -516,8 +526,7 @@ https://neovim.io/
 
 ## VimConf
 年に一度行われるVimのカンファレンスです。
-今年は、11月2日 アキバプラザ・アキバホールで
-VimConf 2025 Smallが行われる予定です。
+今年は、11月2日 アキバプラザ・アキバホールでVimConf 2025 Smallが行われる予定です。
 
 https://vimconf.org/2025/ja/
 
