@@ -1,13 +1,12 @@
 ---
 id: 31-zenn-github-profile-deco
-aliases: 
-tags: 
+aliases: []
+tags: []
 autonotemover: disable
 cssclasses:
   - zenn
-date: 2025-07-17
-emoji: 
-published: false
+date: "2025-07-17"
+published: true
 title: GitHubのプロフィールをデコろう
 type: idea
 url: https://zenn.dev/thirdlf/articles/31-zenn-github-profile-deco.md
