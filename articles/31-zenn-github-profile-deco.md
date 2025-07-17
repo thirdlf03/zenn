@@ -1,19 +1,37 @@
 ---
 id: 31-zenn-github-profile-deco
 aliases: 
-tags:
-  - vim
+tags: 
 autonotemover: disable
 cssclasses:
   - zenn
 date: 2025-07-17
 emoji: 
 published: false
-title: GitHubのプロフィールデコろう
-type: tech
+title: GitHubのプロフィールをデコろう
+type: idea
 url: https://zenn.dev/thirdlf/articles/31-zenn-github-profile-deco.md
 ---
 
+# はじめに
+まず、リポジトリの準備から始めましょう！
+
+![](/images/31/createrepo.png)
+
+
+リポジトリの名前を自分のユーザー名にします。
+![](/images/31/myrepo.png)
+そうすると、special repositoryと出ると思います。
+
+
+add README.mdにチェックを入れて、リポジトリを作成しましょう！
+![](/images/31/addreadme.png)
+
+リポジトリ作成できたら、早速README.mdをいじっていきます。
+編集ボタンを押します
+![](/images/31/edit.png)
+
+ここからは、デコるための素材集めができるサイト紹介です。
 # Icon系
 
 ## Skill Icons
