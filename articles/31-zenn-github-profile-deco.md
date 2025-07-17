@@ -12,7 +12,7 @@ type: idea
 url: https://zenn.dev/thirdlf/articles/31-zenn-github-profile-deco.md
 ---
 :::message
-この記事はAIとともに書いています。URL等の確認は行なっていますが、間違ったリンクが貼ってある場合してください。
+この記事はAIとともに書いています。URL等の確認は行なっていますが、間違ったリンクが貼ってある場合は指摘してください。
 :::
 
 # はじめに
