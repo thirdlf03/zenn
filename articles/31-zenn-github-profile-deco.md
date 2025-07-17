@@ -12,6 +12,9 @@ title: GitHubのプロフィールをデコろう
 type: idea
 url: https://zenn.dev/thirdlf/articles/31-zenn-github-profile-deco.md
 ---
+:::message
+この記事はAIとともに書いています。URL等の確認は行なっていますが、間違ったリンクが貼ってある場合してください。
+:::
 
 # はじめに
 まず、リポジトリの準備から始めましょう！
@@ -127,6 +130,9 @@ https://github.com/marketplace/actions/generate-snake-game-from-github-contribut
       dist/github-snake-dark.svg?palette=github-dark
 ```
 
+## typograssy
+草を使って、文字を表現するやつ
+https://github.com/kawarimidoll/typograssy
 ## GitHub Profile 3D Contrib
 https://github.com/yoshi389111/github-profile-3d-contrib
 
@@ -140,25 +146,6 @@ https://github.com/Ashutosh00710/github-readme-activity-graph
 ```markdown
 [![GitHub Activity Graph](https://github-readme-activity-graph.cyclic.app/graph?username=yourusername&theme=dracula)](https://github.com/yourusername)
 ```
-
-## GitHub Isometric Contributions
-https://github.com/jasonlong/isometric-contributions
-
-ブラウザ拡張機能で貢献グラフを等角投影（アイソメトリック）のピクセルアート版で表示。Chrome・Firefox両方に対応。
-
-## GitHub Skyline
-**注意**: 元のサービス (https://skyline.github.com/) は2023年に廃止されました。
-
-**代替サービス**:
-- GitHub Skyline CLI Extension: https://github.com/github/gh-skyline  
-- Git Skyline (3rd party): https://gitskyline.vercel.app/
-
-貢献グラフを3Dの都市景観として表示。アニメーション付きで、STLファイルとして3Dプリント可能。
-
-## GitHub City
-https://honzaap.github.io/GithubCity/
-
-GitHub貢献から3D都市を生成。Three.jsを使用して開発され、インタラクティブな3D可視化を提供。
 
 # 音楽・エンターテイメント
 
@@ -203,18 +190,6 @@ https://github.com/madushadhanushka/github-readme
 
 GitHub READMEウィジェットのコレクション。多様なウィジェットとツールを一箇所で管理。
 
-# その他の便利ツール
-
-## 訪問者カウンター
-```markdown
-![Profile views](https://komarev.com/ghpvc/?username=yourusername&label=Profile%20views&color=0e75b6&style=flat)
-```
-
-## GitClear Activity Widget
-https://www.gitclear.com/github_profile_dynamic_readme_free
-
-無料で動的なGitHubプロフィール用チェンジログジェネレーター。時間別更新で最近の作業を視覚的に表示。GitHub、GitLab、BitBucket、Azure DevOpsに対応。
-
 # アニメーション・エフェクト
 
 ## Readme Typing SVG
@@ -225,11 +200,6 @@ https://github.com/DenverCoder1/readme-typing-svg
 ```markdown
 [![Typing SVG](https://readme-typing-svg.demolab.com/?lines=First+line+of+text;Second+line+of+text)](https://git.io/typing-svg)
 ```
-
-## GitHub Profile Header Generator
-https://github.com/leviarista/github-profile-header-generator
-
-カスタムヘッダー画像を生成。個人情報やスキルを含むプロフェッショナルなプロフィールヘッダー作成。
 
 # 日常・ライフスタイル
 
@@ -256,6 +226,7 @@ GoodReadsと連携して現在読んでいる本の情報を表示。読書進�
 
 ## Discord Status Integration
 https://github.com/cnrad/lanyard-profile-readme
+専用のDiscord鯖に入る必要がありそう？
 
 Lanyard APIを使用してDiscordのリアルタイムステータスを表示。現在のアクティビティや使用中のアプリケーションを表示。
 
@@ -266,6 +237,7 @@ Lanyard APIを使用してDiscordのリアルタイムステータスを表示�
 ## Discord README Badge
 https://github.com/Zyplos/discord-readme-badge
 
+専用のDiscord鯖に入る必要がありそう？
 IDEのRich Presenceと連携したDiscordバッジ。現在作業中のプロジェクトを表示。
 
 ```markdown
@@ -277,12 +249,6 @@ https://github.com/omidnikrah/github-readme-medium
 
 Medium記事を自動表示。GitHub Actionsを使用してRSSフィードから最新記事を取得。
 
-## GitHub Readme Twitter
-https://github.com/gazf/github-readme-twitter
-
-最新ツイートをプロフィールに表示。リアルタイムでTwitter活動を反映。
-
-**注意**: Twitter APIの有料化により、将来的に機能制限される可能性があります。
 
 # ブログ・コンテンツ
 
@@ -310,15 +276,6 @@ https://github.com/KnlnKS/leetcode-stats
 
 LeetCode問題解決統計を表示。解決した問題数、難易度別統計、ランキングを表示。
 
-## Codewars Badge
-https://www.codewars.com/users/username/badges
-
-Codewarsのランクと達成度を表示するバッジ。プログラミングスキルの証明。
-
-```markdown
-![Codewars](https://www.codewars.com/users/username/badges/large)
-```
-
 ## WakaTime Stats
 https://github.com/anmol098/waka-readme-stats
 
@@ -335,16 +292,11 @@ https://github.com/ABSphreak/readme-jokes
 ![Jokes Card](https://readme-jokes.vercel.app/api)
 ```
 
-## Random Dev Memes
-https://github.com/techytushar/random-memes-for-github-readme
-
-ランダムな開発者向けミームを表示。プロフィールを楽しく演出。
-
 ## GitHub Profile Views Counter
-https://github.com/arturssmirnovs/github-profile-views-counter
+https://github.com/antonkomarev/github-profile-views-counter
 
 プロフィール閲覧数カウンター。訪問者数を追跡・表示。
 
 ```markdown
-![Profile views](https://komarev.com/ghpvc/?username=yourusername&label=Profile%20views&color=0e75b6&style=flat)
+![](https://komarev.com/ghpvc/?username=your-github-username)
 ```
