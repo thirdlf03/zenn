@@ -1,8 +1,17 @@
 ---
-id: 33-zenn-git-github
+id: 33-zenn-what-is-neovim
 aliases: []
 tags: []
+autonotemover: disable
+cssclasses:
+  - zenn
+date: "2025-07-17"
+published: false
+title: Neovimとは
+type: tech
+url: https://zenn.dev/thirdlf/articles/33-zenn-git-github.md
 ---
+
 
 # Gitとは
 Gitとは、プログラムのソースコードなどの変更履歴を記録・追跡するための分散型バージョン管理システム。
