@@ -6,6 +6,7 @@ autonotemover: disable
 cssclasses:
   - zenn
 date: "2025-08-11"
+emoji: 🐶
 published: false
 title: 株式会社Progateの5daysインターンに参加してきた！
 type: tech
