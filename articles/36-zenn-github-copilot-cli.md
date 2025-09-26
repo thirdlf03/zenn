@@ -2,14 +2,13 @@
 id: 36-zenn-github-copilot-cli
 aliases:
 tags:
-  - cloudflare
 autonotemover: disable
 cssclasses:
   - zenn
 date: 2025-09-26
 emoji: 🔥
 published: false
-title: GitHub Copilot CLI使ってみた
+title: GitHub Copilot CLI入門
 type: tech
 url: https://zenn.dev/thirdlf/articles/36-zenn-github-copilot-cli
 ---
@@ -18,7 +17,7 @@ url: https://zenn.dev/thirdlf/articles/36-zenn-github-copilot-cli
 なんとなくTwitter見てたらこんなツイートが
 https://x.com/github/status/1971295695853306059
 
-CLI系大好きな人間としては触ってみるしかないと思ったので、実際に触ってみてClaude CodeやCodex、Amazon Q Developerと比較していきます
+触ってみるしかないってことで、実際に触ってみて入門記事書いてみました
 
 :::message 
 これは9/26の情報です
@@ -59,7 +58,7 @@ copilot
 ```
 
 ## モデル
-デフォルトでは、Claude Sonnet 4が使われるがGPT-5で起動することもできるらしい
+デフォルトでは、Claude Sonnet 4が使われるがGPT-5で起動することもできる
 
 Mac
 ```
@@ -122,8 +121,9 @@ Tabで入力フィールド切り替えたり、Ctrl + Sで保存できる
 これはざっと検証した情報ですが、カスタム指示が書かれたファイルも優先度がありそう。
 
 Copilotはまず、copilot-instructions関係の指示ファイルを読み込むっぽい。
- `.github/instructions/**/*.instructions.md` `.github/copilot-instructions.md`
-  `$HOME/.copilot/copilot-instructions.md
+ `.github/instructions/**/*.instructions.md`   
+ `.github/copilot-instructions.md.  
+  `$HOME/.copilot/copilot-instructions.md.    
 
 なので複数copilot-instructionsがあると、どっちも読んだ上で作業するっぽい
 
@@ -167,7 +167,7 @@ copilot help config
 - "once" 初回だけ表示
 
 ### beep
-注意すべき時に音がなるらしい
+ユーザーからの入力が必要な時にbeep音がなる
 デフォルトでtrue
 booleanで設定されているので、stringにするとエラー吐くので注意
 
@@ -229,7 +229,79 @@ Usage: copilot options command
   - --screen-reader                  スクリーンリーダーの最適化を有効にします
   - -v, --version                    バージョン情報を表示します
 
-# GitHub Copilot 
+# GitHub Copilot CLIをガッツリ使ってみよう
+
+著者の環境
+- OS: Mac
+- モデル: GPT-5 (COPILOT_MODEL=gpt-5 copilotで起動)
+- MCP: serena、context7、chrome-devtools, fetch mcp
+使ったmcp-config.jsonです。 context7のapikeyは自分のやつを設定してください。
+@[gist](https://gist.github.com/thirdlf03/646250bf509665877c27534c2df170a9)
+
+- copilot-instructions.md はこれを参考に改変したものを使用
+https://qiita.com/ulxsth/items/b2e6f366e3f87ca2ae1c
 
 
+```md:.github/copilot-instructions.md
+# 基本
+- 日本語で応答すること
+- 必要に応じて、ユーザに質問を行い、要求を明確にすること
+- 作業後、作業内容とユーザが次に取れる行動を説明すること
+- 作業項目が多い場合は、段階に区切り、git commit を行いながら進めること。その際、GitHub MCPを使用してください
+  - semantic commit を使用する
+- コマンドの出力が確認できない場合、 get last command / check background terminal を使用して確認すること
+
+## develop
+各作業を以下のように定義する。
+- 「調査」と指示された場合、都度 docs/reports に記載すること
+- 「計画」と指示した場合、docs/tasks.md に計画を記載する
+  - 前回の内容が残っている場合は、読まずに消して構わない
+  - コードベース / docs を読み込み、要件に関連性のあるファイルパスをすべて記載すること
+  - 不明な点については、fetch mcp、context7 mcpを使用して検索すること
+  - 必要最小限の要件のみを記載すること
+  - このフェーズで、コードを書いては絶対にいけない
+- ユーザが「実装」と指示した場合、docs/tasks.md に記載された内容に基づいて実装を行う
+  - 記載されている以上の実装を絶対に行わない
+  - ここでデバッグしない
+- 「デバッグ」と指示された場合、直前のタスクのデバッグ「手順」のみを示す
+
+## documents
+- docs/reports/*.md : 調査レポート
+- docs/schema.md : データ構造
+- docs/requirements.md : 要件定義
+```
+
+
+## ToDoアプリ作ってみる
+もはややらなくてもいい気がしますが、やってみます
+
+与えたプロンプト
+```
+reactでToDoアプリを作りたいです。計画を立てて
+```
+
+![](/images/36/response1.png)
+与えたプロンプト2
+```
+todo-appで良いです。 TS使用で大丈夫です。 cssはtailwind使って、テストはMVP外で大丈夫です。
+実装を始める前にgit initして問題ありません
+```
+
+
+できたもの
+
+デプロイ先
+https://github-copilot-cli-todo-app.pages.dev/
+
+リポジトリ
+https://github.com/thirdlf03/github-copilot-cli-todo-app
+
+
+
+# 感想
+入門記事書くためにざっと触ってみたが、感触は悪くなかったです。
+ただ、細かいツールの呼び出し方で怪しいところがあったので、何やってるか監視しといた方がいいかもしれないです。
+https://x.com/thirdlf1/status/1971416655139045831
+
+ GitHub Copilotに慣れていて、CLI系(Claude CodeやCodex)を触ったことない方や copilot-instructionsなど資源がある方はぜひ触ってみてください！！
 
