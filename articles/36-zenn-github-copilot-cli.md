@@ -9,7 +9,7 @@ cssclasses:
   - zenn
 date: 2025-09-26
 emoji: 🔥
-published: false
+published: true
 title: GitHub Copilot CLI入門
 type: tech
 url: https://zenn.dev/thirdlf/articles/36-zenn-github-copilot-cli
@@ -173,7 +173,7 @@ copilot help config
 デフォルトでtrue
 booleanで設定されているので、stringにするとエラー吐くので注意
 
-## render_markdown
+### render_markdown
 ターミナル上でmarkdownをrenderするかどうか
 デフォルトでtrue
 
