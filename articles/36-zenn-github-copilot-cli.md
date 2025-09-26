@@ -123,9 +123,9 @@ Tabで入力フィールド切り替えたり、Ctrl + Sで保存できる
 これはざっと検証した情報ですが、カスタム指示が書かれたファイルも優先度がありそう。
 
 Copilotはまず、copilot-instructions関係の指示ファイルを読み込むっぽい。
- `.github/instructions/**/*.instructions.md`   
- `.github/copilot-instructions.md.  
-  `$HOME/.copilot/copilot-instructions.md.    
+ - `.github/instructions/**/*.instructions.md`   
+ - `.github/copilot-instructions.md.  
+ - `$HOME/.copilot/copilot-instructions.md.    
 
 なので複数copilot-instructionsがあると、どっちも読んだ上で作業するっぽい
 
