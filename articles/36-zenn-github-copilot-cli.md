@@ -22,7 +22,7 @@ https://x.com/github/status/1971295695853306059
 触ってみるしかないってことで、実際に触ってみて入門記事書いてみました
 
 :::message 
-これは9/26の情報です
+これは2025 9/26の情報です
 :::
 
 # GitHub Copilot CLIとは？
@@ -148,6 +148,8 @@ copilot-instructionsがないときは、上から順番に
  `**/AGENTS.md`
  `GEMINI.md`
  の順で読み取ってそうだった
+
+↑ 追加検証してる時に再現できなかったので要検証
  
 ## Config
 ~/.copilot/config.json　に設定をいろいろかける
