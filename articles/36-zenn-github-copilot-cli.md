@@ -2,6 +2,8 @@
 id: 36-zenn-github-copilot-cli
 aliases:
 tags:
+  - github
+  - githubcopilot
 autonotemover: disable
 cssclasses:
   - zenn
@@ -239,6 +241,7 @@ Usage: copilot options command
 @[gist](https://gist.github.com/thirdlf03/646250bf509665877c27534c2df170a9)
 
 - copilot-instructions.md はこれを参考に改変したものを使用
+
 https://qiita.com/ulxsth/items/b2e6f366e3f87ca2ae1c
 
 
