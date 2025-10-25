@@ -548,36 +548,18 @@ Vue.js コアチームメンバー、Volar.js 作者
 Johnson Chuさん
 
 ## 感想
-元々ゲーム開発していた。
+元々ゲーム開発していたみたい。
+言語ツールって言われてなんだろうと思っていたけど、LSPの話みたい
 
-IDEサポート
-
-VVScode HTML拡張きのと同様の方法で埋め込み言語をサポート。
-
-
-TS speeed slow than tssever
-no enought TS Support in template
-
-volar TSレベルの開発者エクスペリエンsぬ
 one lsp server for vue language support 
 ts causes all lsp features slow
 
-ts lspまちで、遅い待たないといけない
-
+tsが遅いため、ボトルネックになる
 
 multiple lsp servers
+上記の問題を解決するために、考案されたがメモリ使用量がデカすぎる
 
-TScが遅いって話？
-
-ts
-TS Plugin
-
-Block TS Server origin language via plugin
-
-
-Hugeメモリ
-
-TSの拡張昨日から TS Serviを読み、vue server
+TSの拡張機能からTS Serviceを読み、vue serverみたいな経由
 
 
 vue extension、 vueserver、 ts
@@ -592,9 +574,6 @@ vue serverかrsyntax onlyだけ撮ってきて、 vue ts pluginかr 詳しい内
 
 
 Hybid mode with Request forwarding
-
-
-
 
 
 
@@ -624,23 +603,21 @@ textlint におこおこ。　主観的にで誇張的である
 開発者の認知負荷を最小化
 本質的な問題解決に集中
 
+ピニャコラーダ、バージョン1にも満たしてない
 
-ピニャコラーダ、バージョン1nimo満たしてない
-
-
-ボボウラープレートのような増えてしまう
+ボイラーテンプレートが増えてしまう
 型安全ルーティング
 
 宣言的なデータフェッチ
-
 
 Nuxt Typed Router
 https://nuxt.com/modules/typed-router
 
 
-IDEの補完効かない問題は開発体験悪そう Nuxt Typed Router使う解決できる
+IDEの補完効かない問題は開発体験悪そう 
+- Nuxt Typed Router使う解決できる
 
-型安全あnナビゲーション
+型安全なナビゲーション
 
 AIによるコードを静的解析を通して、レビュー漏れを防げる。 生成AI時代になって、静的解析できるってのはかなりアドバンテージなった気がするな
 
@@ -773,6 +750,47 @@ Nuxtアプリケーションのテストは@nuxt/test-utils使うと簡単にか
 株式会社ZOZO
 フロントエンドエンジニア
 ssssotaさん
+
+#### 感想
+何故動くのか
+→バイナリになるから
+
+完
+
+Rust製ツールの侵食が怖い
+
+CLI, NodeーAPI、WASM
+
+Rustツール怖い
+npmインストールしただけなのに...
+
+CLIベースのRust製
+
+DenoやBiome
+
+バイナリが配置される
+
+Node-APIベースRolldown, Oxc, WSC,Rspack
+OS/CPU依存のネイティブバイナリ、node.jsと通信でkる
+
+NODE-API、NAPI-RS
+
+WASMベース
+OS/CPUに依存しない
+若干遅い
+
+wasm-bindgen
+NAPI-RS(WASI)
+
+wasm-bindgenは非WASIなWASM
+
+DOM操作APIをRustから
+NAPI-RSはWASIベースのWASMも出力
+StackBlitz等を支える技術
+
+今後のRust製ツールチェインの進化が怖い
+
+
 ### Nuxt4のSingleton Data Fetching Layerで何が変わるのか
 
 #### speaker
@@ -780,33 +798,220 @@ ssssotaさん
 株式会社 コドモン
 ソフトウェアエンジニア
 Naoki Habaさん
+#### 感想
+Nuxt4の話
+
+Singleton Fetching Layer
+
+内部実装。
+
+キャッシュ戦略がやりやすくなった
+Reactive keyのサポート
+自動的データクリーンアップ
+→ depsってのがあって、コンポーネントのアンマウントを数えているらしい
+
+同じにKeyでrefインスタンスを共有してくれるのありがたいな
+
+
+
 ### アウトプットから始めるOSSコントリビューション 〜eslint-plugin-vueの場合〜
 #### speaker
 弁護士ドットコム株式会社
 フロントエンジニア
 ツノさん
 
+#### 感想
+
+OSSへの貢献ってハードルが高い
+
+気軽にOSSへの参加表明
+
+ESLint Typegen
+https://github.com/antfu/eslint-typegen
+
+補助輪
+DeepWiki、Cursor使ってコードリーディング
+
+ESLintに入った
+
+OSSへの貢献は、小さな改善でも感慨深い
+技術的に成長できた
+eslint-typegenのコアモジュールを利用
+
+カジュアルに参加できた！
+
+Vue.jsのコミュニティは参加表明しやすい
+
+
+
+
 ### 知覚とデザイン short version
 #### speaker
 エンジニア
 Rinchokuさん
+
+Vueの話はない
+モノの認識
+
+View Fes Japan 2025
+
+デザインに手を加える時
+競合や似たツール、行動心理学を調べる、スタイルガイドなど
+
+ただ、疑問が生まれる
+二番煎じになっちゃうんじゃないの？
+
+
+脳を理解する
+
+視覚野
+光
+眼
+脳
+認知
+
+視覚野: ブロードマンの脳地図
+V1 ~ V5がある
+
+V4の物体認知について深掘り
+色に対する選択制をもつニューロンが多い
+
+パターンなどに反応、奥行きなど..
+曖昧な状態で判断している
+ニューロン
+
 ### Nuxt 認証基盤作成における Cookie 状態管理のポイント
 #### speaker
 フリーランス
 フロントエンジニア
 shiminoriさん
+
+なぜ独自認証基盤が必要か
+
+パッケージの問題
+
+sidebase/nuxt-authを使用予定。
+不具合があって、使えなかった
+
+代替え手段なし
+ビジネス要件に合わせた使用
+
+useState でCookie状態管理
+
+composablesを書く
+
+useCookieでトークン管理
+
+SSRでは、useCookieのみだとうまく動かない
+なので、useState でCookie状態管理
+
+なぜ必要なのか
+
+複数ブラウザの時の挙動で意図しない挙動した
+useStateで管理することで、ブラウザ単位でいけた
+
+うまく運用できてる！
+
 ### 個人でデジタル庁のデザインシステムをVue.jsで作っている話
 #### speaker
 株式会社ICS
 フロントエンドエンジニア
 にしはらさん
+
+アクセシビリティの確保を優先した作りになっている、
+
+誰でも使える
+
+react、tailwind cssを公式は使っている。
+
+vue.jsがない。
+
+デザインシステムのおおよその実装している
+https://github.com/Crayfisher-zari/digital-agency-design-system
+
+依存はvue.jsだけ
+
+vue.jsの魅力
+v-model、入力と状態の同期に使える
+値のみに注目
+コンポーネントにもv-model
+コンポーネント感の値に集中
+
+computed
+値が不変な限りキャッシュ返す
+compute迷わずに使う
+useMemoみたいなノリ
+
+コンポーネントの中身の責任を分離したい
+→ slotを使って、レイアウトまで責任は持つ
+
+アクセシビリティを勉強するって意味だとすごく勉強になりそうだな。
+
+あと、改めてVueの魅力について語られていてよかった
 ### React Nativeならぬ"Vue Native"が実現するかも？ 新世代マルチプラットフォーム開発フレームワークのLynxとLynxのVue.js対応を追ってみよう
 #### speaker
 フューチャーアーキテクト株式会社
 シニアコンサルタント
 永井優斗さん
+
+Vue Native
+
+Reactには、React NativeがあるがVueには...
+
+Vue Nativeはあった。　存在だけ知ってるやつだ
+
+lynx
+
+触ってみた
+Lynx側に独自のインターフェースがあり、それをreatでラップしている
+
+疎結合感がある
+
+Vue + Lynxに向けた動き
+動いてはいるものの、今動きがない
+
+Bytedanceの資本力にも期待
+
+
+
+
+
+
 ### chocoZAPサービス予約システムをNuxtで内製化した話
 #### speaker
 RIZAPテクノロジーズ株式会社
 フロントエンドエンジニア
 Kaede Katoさん
+
+
+チョコザップ
+コンビニ事務
+
+
+チョコザップの予約システムをNuxtで内省されている
+
+
+SPモードでクライアントレンダリング
+UX/レスポンスゆうっ戦
+
+Nuxt Server(BFF) を呼び出し、バックエンドのrails APIを叩く
+→ データをNuxt Server側で整形できる
+
+Railsのエンドポイントを晒さないためセキュア
+
+Redis
+
+Cookieを使用してセッションを確認
+
+RedisでCookkieにユーザー識別しを保存している
+
+アプリ利用時はログインをスキップできるようにして、体験を重視
+
+iOSの一部端末で戻るボタンを押すと直前ではなく最初のページまで飛んでしまう。。
+
+昔、同じような現象に遭遇したことあった気がする
+
+アプリの戻る操作では履歴なしと判断される
+→ Nuxt側で独自の履歴スタックを用意して対策
+
+特定の端末やブラウザで起こるエラーって対策するのがむずいからエラー起こらないでくれ＞＜って願うしかないな〜
