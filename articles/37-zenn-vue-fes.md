@@ -3,12 +3,14 @@ id: 37-zenn-vue-fes
 aliases:
 tags:
   - vue
+  - vite
+  - nuxt
 autonotemover: disable
 cssclasses:
   - zenn
 date: 2025-10-25
 emoji: ☘️
-published: false
+published: true
 title: Vue Fes Japan 2025参加してきた！
 type: tech
 url: https://zenn.dev/thirdlf/articles/37-zenn-vue-fes
