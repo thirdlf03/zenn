@@ -1,4 +1,3 @@
-
 ---
 title: "JAWS DAYS 2026で登壇した！"
 emoji: "🦁"
