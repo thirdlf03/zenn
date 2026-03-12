@@ -147,7 +147,7 @@ compensation / observability などの後続処理が動く
 
 | カテゴリ | 技術 |
 |---------|------|
-| Go サービス | connect-go / gRPC（greeter, caller, gateway, projector） |
+| Go サービス | connect-go / gRPC（greeter, caller, gateway）+ Kafka subscriber / HTTP（projector） |
 | Node.js サービス | Express（auth-service, custom-lang-service） |
 | フロントエンド | React 19 + TypeScript + Vite + connect-query + TanStack Query |
 | データベース | PostgreSQL 17（サービスごとに専用DB） |
@@ -228,7 +228,7 @@ Go サービスの共通パターンは `/services/internal/platform/` に集約
 開発環境は **Nix / devenv** で管理されています。通常は repo で `direnv allow` を実行すれば、Go, Node.js, buf, kubectl, tilt 等の必要なツールが揃います。`direnv` を使わない場合は `devenv shell` でシェルに入ってから作業します。
 
 :::message
-本文中の `bootstrap` / `bootstrap-full` / `full-bootstrap` / `new-service` は、各 repo で `direnv allow` したあとに使える **devenv コマンド** です。コマンドが見つからない場合は、まずその repo で `direnv allow` が済んでいるかを確認してください。
+本文中の `new-service` は `microservices-app` 側、`bootstrap` / `bootstrap-full` / `full-bootstrap` は `microservices-infra` 側で `direnv allow` 後に使える **devenv コマンド** です。コマンドが見つからない場合は、まず対象の repo 側で `direnv allow` が済んでいるかを確認してください。
 :::
 
 ```bash
@@ -271,9 +271,9 @@ cd ../microservices-app && tilt up
 |-----|----------|
 | http://localhost:30081 | Traefik（APIゲートウェイ） |
 | http://localhost:10350 | Tiltダッシュボード（Tilt使用時） |
-| http://localhost:30300 | Grafana（admin/admin）（Tilt使用時） |
-| http://localhost:30090 | Prometheus（Tilt使用時） |
-| http://localhost:30082 | Redpanda Console（Tilt使用時） |
+| http://localhost:30300 | Grafana（admin/admin）（`bootstrap-full` / `full-bootstrap` 時） |
+| http://localhost:30090 | Prometheus（`bootstrap-full` / `full-bootstrap` 時） |
+| http://localhost:30082 | Redpanda Console（`bootstrap-full` / `full-bootstrap` 時） |
 | http://localhost:31235 | Hubble UI（`bootstrap-full` / `full-bootstrap` 時） |
 
 :::message
@@ -733,38 +733,41 @@ services/internal/todo/migrations/
 
 ### 動作確認
 
-:::details curlでテスト & DB確認
+:::details curl（API テスト）
 ```bash
-# Docker Compose: CreateTodo を叩く（Dockerネットワーク内で実行）
-docker run --rm --network microservices-app_app curlimages/curl:latest \
-  -s -X POST http://todo:9000/todo.v1.TodoService/CreateTodo \
-  -H 'Content-Type: application/json' \
-  -d '{"title": "buy milk"}'
-# => {"id":"xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"}
+# トークン取得
+TOKEN=$(curl -s -X POST http://localhost:30081/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"pass123"}' | jq -r '.token')
 
-# Kind + Tilt: Traefik 経由で CreateTodo を叩く場合
+# CreateTodo
 TODO_ID=$(curl -s -X POST http://localhost:30081/todo.v1.TodoService/CreateTodo \
-  -H 'Content-Type: application/json' \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
   -d '{"title": "buy milk"}' | jq -r '.id')
 
 # UpdateTodoTitle
 curl -s -X POST http://localhost:30081/todo.v1.TodoService/UpdateTodoTitle \
-  -H 'Content-Type: application/json' \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
   -d "{\"id\":\"${TODO_ID}\",\"title\":\"buy oat milk\"}"
 
 # DeleteTodo
 curl -s -X POST http://localhost:30081/todo.v1.TodoService/DeleteTodo \
-  -H 'Content-Type: application/json' \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer $TOKEN" \
   -d "{\"id\":\"${TODO_ID}\"}"
 
-# もしくは Tilt で port-forward した service の localhost:<port> を叩く
+# DB確認（k8s）
 
-# DBを確認（イベントストアの中身）
-docker compose exec postgres psql -U devuser -d todo_db \
+# event_store
+kubectl exec -n database postgresql-0 -c postgresql -- \
+  env PGPASSWORD=devpass psql -U devuser -d todo_db \
   -c 'SELECT stream_id, event_type, version, data FROM event_store ORDER BY created_at;'
 
-# Outbox（Kafkaへの発行状況）を確認
-docker compose exec postgres psql -U devuser -d todo_db \
+# outbox_events
+kubectl exec -n database postgresql-0 -c postgresql -- \
+  env PGPASSWORD=devpass psql -U devuser -d todo_db \
   -c 'SELECT id, topic, published, created_at FROM outbox_events ORDER BY created_at;'
 ```
 :::
